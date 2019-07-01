@@ -20,6 +20,7 @@
   "homepage": "https://github.com/codecell/wayfarer#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
