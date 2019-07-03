@@ -1,6 +1,4 @@
-import Joi from 'joi';
-
-import UserModel from "../models/user";
+import UserModel from '../models/user';
 
 const User = {
   
@@ -14,10 +12,11 @@ const User = {
   async getUsers(req, res) {
     try {
       const { rows } = await UserModel.getAllUsers();
-      return res.status(200).json({ status: "Success", data: { users: rows } });
+      return res.status(200).json({ status: 'Success', data: { users: rows } });
     } catch (ex) {
-      if (ex)
-        return res.status(500).json({ status: "Error", error: ex.message });
+      if (ex) {
+        return res.status(500).json({ status: 'Error', error: ex.message });
+      }
     }
   },
 
@@ -29,8 +28,8 @@ const User = {
   async getUserById(req, res) {
     try {
       const { rows } = await UserModel.findUserById(req.params.id);
-      if(!rows[0]) {
-        return res.status(404).json({ status: "Error", data: { message: 'User With Given ID Not Found'}});
+      if (!rows[0]) {
+        return res.status(404).json({ status: 'Error', data: { message: 'User With Given ID Not Found' } });
       }
   
       return res.status(200).json({
@@ -42,11 +41,9 @@ const User = {
         }
       });
     } catch (ex) {
-      if(ex) return res.status(500).json({ status: "Error", data: { message: ex.message }});
+      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
     }
   }
 };
-
-
 
 export default User;
