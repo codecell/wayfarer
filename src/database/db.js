@@ -8,11 +8,13 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: 'wayfarer',
     password:  process.env.DB_PASS,
-    port: 5432
+    port: 5432,
 });
 
 pool.on('connect', () => {
-    console.log("connected to wayfarer DB!");
-    }
-);
+    console.log('Connected to wayfarer DB!!!');
+});
+
+
 module.exports = pool;
+
