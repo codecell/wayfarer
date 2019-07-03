@@ -10,6 +10,17 @@ const passwordHelper = {
     hashPassword(password) {
         const salt = bcrypt.genSaltSync(12);
         return bcrypt.hashSync(password, salt);
+    },
+
+    /**
+     * compare password
+     * @param {String} password
+     * @param {String} hashedPassword
+     * @returns {Boolean}
+     */
+
+    comparePassword (password, hashedPassword) {
+        return bcrypt.compareSync(password, hashedPassword);         
     }
 }
 
