@@ -19,6 +19,31 @@ const User = {
       if (ex)
         return res.status(500).json({ status: "Error", error: ex.message });
     }
+  },
+
+  /**
+   * request a user by id
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async getUserById(req, res) {
+    try {
+      const { rows } = await UserModel.findUserById(req.params.id);
+      if(!rows[0]) {
+        return res.status(404).json({ status: "Error", data: { message: 'User With Given ID Not Found'}});
+      }
+  
+      return res.status(200).json({
+        status: 'Success',
+        data: {
+          user_id: rows[0].id,
+          is_admin: rows[0].is_admin,
+          first_name: rows[0].first_name
+        }
+      });
+    } catch (ex) {
+      if(ex) return res.status(500).json({ status: "Error", data: { message: ex.message }});
+    }
   }
 };
 
