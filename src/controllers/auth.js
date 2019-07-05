@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import UserModel from '../models/user';
+import userModel from '../models/user';
 import passwordHelper from '../helpers/passwordHelper';
 import emailHelper from '../helpers/emailHelper';
 import generateAuthToken from '../helpers/jwtHelper';
@@ -24,7 +24,7 @@ const Auth = {
         hashedPassword,
         is_admin
       ];
-      const { rows } = await UserModel.createUser(newUserprops);
+      const { rows } = await userModel.createUser(newUserprops);
 
       const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
 
@@ -65,7 +65,7 @@ const Auth = {
     }
 
     try {
-      const { rows } = await UserModel.getUserByEmail(req.body.email);
+      const { rows } = await userModel.getUserByEmail(req.body.email);
       if (!rows[0]) { 
         return res
           .status(401)
