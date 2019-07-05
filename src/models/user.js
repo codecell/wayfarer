@@ -1,6 +1,6 @@
 import pool from '../database/db';
 
-const UserModel = {
+const userModel = {
   /**
    * save a user to db
    * @param {Array} userProps
@@ -45,4 +45,4 @@ const UserModel = {
   }
 };
 
-export default UserModel;
+export default userModel;
