@@ -12,6 +12,15 @@ const tripModel = {
             VALUES( $1, $2, $3, $4, $5, $6) RETURNING *`,
       tripProps            
     );
+  },
+  
+  /**
+   * view all trips in the DB
+   */
+  getAllTrips() {
+    return pool.query(
+      'SELECT * FROM trips ORDER BY id ASC'
+    );
   }
 };
 

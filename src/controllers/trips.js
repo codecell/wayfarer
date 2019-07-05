@@ -32,6 +32,20 @@ const Trip = {
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
     }
+  },
+
+  /**
+   * request all trips in the DB
+   * @param {object} req 
+   * @param {object} res 
+   */
+  async getTrips(req, res) {
+    try {
+      const { rows } = await tripModel.getAllTrips();
+      return res.status(200).json({ status: 'Success', data: rows });
+    } catch (ex) {
+      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+    }
   }
 };
 
