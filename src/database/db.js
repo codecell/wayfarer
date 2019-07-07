@@ -3,18 +3,24 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+let database;
+
+if (process.env.NODE_ENV === 'development') {
+  database = 'wayfarer';
+} else if (process.env.NODE_ENV === 'test') {
+  database = 'wayfarer_test';
+}
+
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: 'wayfarer',
-    password:  process.env.DB_PASS,
-    port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database,
+  password: process.env.DB_PASS,
+  port: 5432,
 });
 
 pool.on('connect', () => {
-    console.log('Connected to wayfarer DB!!!');
+  console.log( `Connected to ${database} DB!!!`);
 });
 
-
 module.exports = pool;
-
