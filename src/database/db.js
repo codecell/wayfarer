@@ -6,9 +6,9 @@ dotenv.config();
 let database;
 
 if (process.env.NODE_ENV === 'development') {
-  database = 'wayfarer';
-} else if (process.env.NODE_ENV === 'test') {
-  database = 'wayfarer_test';
+  database = process.env.DB_DEV;
+} else if (process.env.NODE_ENV === 'test' || (process.env.NODE_ENV === 'TEST') {
+  database = process.env.DB_TEST;
 }
 
 const pool = new Pool({
