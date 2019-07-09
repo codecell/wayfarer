@@ -22,7 +22,6 @@ const Bus = {
       });
     } catch (ex) {
       if (ex) {
-        console.log('BUSE EXC: ', ex);
         return res.status(500).json({ status: 'Error', data: { message: ex.message } });
       }   
     }

@@ -20,6 +20,7 @@ const trip = {
   fare: 30.5
 };
 
+
 const bus = {
   number_plate: 'abc1',
   manufacturer: 'toyota',
@@ -59,8 +60,8 @@ describe('POST /trips endpoint', () => {
   it('should allow an Admin user access to create a trip', (done) => {
     chai.request(app)
       .post('/api/v1/trips')
-      .send(trip)
       .set('x-auth-token', token)
+      .send(trip)
       .end((err, res) => {
         assert.equal(res.status, 201);
         assert.typeOf(res.body, 'object');
@@ -69,3 +70,30 @@ describe('POST /trips endpoint', () => {
   });
 });
 
+describe('GET /trips/:id endpoint', () => {
+  it('should allow an Admin user access to view a particular trip', (done) => {
+    chai.request(app)
+      .get('/api/v1/trips/1')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        done();
+      });
+  });
+});
+
+describe('PATCH /trips endpoint', () => {
+  it('should allow an Admin user access to CANCEL a trip', (done) => {
+    chai.request(app)
+      .patch('/api/v1/trips/1')
+      .set('x-auth-token', token)
+      .send({ status: 'cancelled' })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'Trip cancelled successfully');
+        done();
+      });
+  });
+});

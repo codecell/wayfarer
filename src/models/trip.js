@@ -21,6 +21,32 @@ const tripModel = {
     return pool.query(
       'SELECT * FROM trips ORDER BY id ASC'
     );
+  },
+
+  /**
+   * select trip with id
+   * @param {string || number} id 
+   */
+  selectTripById(id) {
+    return pool.query(
+      'SELECT * FROM trips WHERE id = $1', 
+      [id]
+    );
+  },
+  
+
+  /**
+   * select trip update
+   * @param {string} id 
+   * @param {object} trip 
+   */
+  updateTripStatusById(id, trip) {
+    return pool.query(
+      `UPDATE trips SET 
+           status = $1 
+          WHERE id = $2 RETURNING *`,
+      [...Object.values(trip), id]
+    );
   }
 };
 

@@ -115,6 +115,20 @@ describe('GET /trips', () => {
       });
   });
 });
+describe('POST /buses endpoint', () => {
+  it('should not allow a user who is NOT AN ADMIN access to post a bus', (done) => {
+    chai.request(app)
+      .post('/api/v1/buses')
+      .send(bus)
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 403);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        done();
+      });
+  });
+});
 
 describe('POST /trips endpoint', () => {
   it('should not allow a user who is NOT AN ADMIN access to create a trip', (done) => {
@@ -131,12 +145,13 @@ describe('POST /trips endpoint', () => {
   });
 });
 
-describe('POST /buses endpoint', () => {
-  it('should not allow a user who is NOT AN ADMIN access to post a bus', (done) => {
+
+describe('PATCH /trips endpoint', () => {
+  it('should NOT ALLOW a user who is NOT an ADMIN access to CANCEL a trip', (done) => {
     chai.request(app)
-      .post('/api/v1/buses')
-      .send(bus)
+      .patch('/api/v1/trips/1')
       .set('x-auth-token', token)
+      .send({ status: 'cancelled' })
       .end((err, res) => {
         assert.equal(res.status, 403);
         assert.typeOf(res.body, 'object');

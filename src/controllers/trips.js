@@ -46,6 +46,44 @@ const Trip = {
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
     }
+  },
+
+  /**
+     * request a given trip
+     * @param {object} req 
+     * @param {object} res 
+     */
+  async getTripById(req, res) {
+    try {
+      const { rows } = await tripModel.selectTripById(req.params.id);
+      if (!rows[0]) {
+        return res.status(404).json({ status: 'Error', data: { message: 'TRIP WITH GIVEN ID NOT FOUND' } });
+      }
+      return res.status(200).json({ status: 'SUCCESS', data: rows[0] });
+    } catch (ex) {
+      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+    }
+  },  
+
+  /**
+   * update a trip
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async cancelTrip(req, res) {
+    const { status } = req.body;
+
+    try {
+      const { rows } = await tripModel.selectTripById(req.params.id);
+      if (!rows[0]) {
+        return res.status(404).json({ status: 'Error', data: { message: 'Trip with given id not found' } });
+      }
+
+      await tripModel.updateTripStatusById(req.params.id, [status]);
+      return res.status(200).json({ status: 'SUCCESS', data: { message: 'Trip cancelled successfully' } });
+    } catch (ex) {
+      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+    }
   }
 };
 
