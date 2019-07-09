@@ -41,6 +41,19 @@ describe('POST /auth/signin', () => {
       });
   });
 });
+describe('POST /buses endpoint', () => {
+  it('should allow an Admin user access to post a bus', (done) => {
+    chai.request(app)
+      .post('/api/v1/buses')
+      .send(bus)
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        assert.typeOf(res.body, 'object');
+        done();
+      });
+  });
+});
 
 describe('POST /trips endpoint', () => {
   it('should allow an Admin user access to create a trip', (done) => {
@@ -56,16 +69,3 @@ describe('POST /trips endpoint', () => {
   });
 });
 
-describe('POST /buses endpoint', () => {
-  it('should allow an Admin user access to post a bus', (done) => {
-    chai.request(app)
-      .post('/api/v1/buses')
-      .send(bus)
-      .set('x-auth-token', token)
-      .end((err, res) => {
-        assert.equal(res.status, 201);
-        assert.typeOf(res.body, 'object');
-        done();
-      });
-  });
-});

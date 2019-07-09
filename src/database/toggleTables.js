@@ -32,7 +32,7 @@ const createTripsTable = `CREATE TABLE
     trip_date DATE DEFAULT current_date,
     fare FLOAT NOT NULL,
     status TEXT,
-    FOREIGN KEY (bus_id) REFERENCES buses(id) ON DELETE CASCADE
+    FOREIGN KEY (bus_id) REFERENCES buses(id)
     )`;
 
 
@@ -51,9 +51,9 @@ const toggleDatabase = queryString => pool.query(queryString)
 
 toggleDatabase(`
 DROP TABLE IF EXISTS users; 
-${createUsersTable};
 DROP TABLE IF EXISTS trips;
-${createTripsTable};
-DROP TABLE IF EXISTS buses CASCADE;
+DROP TABLE IF EXISTS buses;
+${createUsersTable};
 ${createBusesTable};
+${createTripsTable};
 `);
