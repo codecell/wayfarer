@@ -31,7 +31,8 @@ const createTripsTable = `CREATE TABLE
     destination TEXT NOT NULL,
     trip_date DATE DEFAULT current_date,
     fare FLOAT NOT NULL,
-    status TEXT
+    status TEXT,
+    FOREIGN KEY (bus_id) REFERENCES buses(id)
     )`;
 
 
@@ -53,6 +54,6 @@ DROP TABLE IF EXISTS users;
 ${createUsersTable};
 DROP TABLE IF EXISTS trips;
 ${createTripsTable};
-DROP TABLE IF EXISTS buses;
+DROP TABLE IF EXISTS buses CASCADE;
 ${createBusesTable};
 `);
