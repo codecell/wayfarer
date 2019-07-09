@@ -51,9 +51,9 @@ const toggleDatabase = queryString => pool.query(queryString)
 
 toggleDatabase(`
 DROP TABLE IF EXISTS users; 
-${createUsersTable};
 DROP TABLE IF EXISTS trips;
-${createTripsTable};
-DROP TABLE IF EXISTS buses CASCADE;
+DROP TABLE IF EXISTS buses;
+${createUsersTable};
 ${createBusesTable};
+${createTripsTable};
 `);
