@@ -18,6 +18,7 @@ const pool = new Pool({
   password: process.env.DB_PASS,
   port: 5432,
 });
+
 pool.on('connect', () => {
   console.log( `Connected to ${database} DB!!!`);
 });

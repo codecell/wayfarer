@@ -17,14 +17,14 @@ const Auth = {
     const is_admin = false;
     
     try {
-      const newUserprops = [
+      const signupValues = [
         email,
         first_name,
         last_name,
         hashedPassword,
         is_admin
       ];
-      const { rows } = await userModel.createUser(newUserprops);
+      const { rows } = await userModel.createUser(signupValues);
 
       const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
 

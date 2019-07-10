@@ -46,9 +46,25 @@ function validateTrip(trip) {
   return Joi.validate(trip, schema);
 }
 
+function validateBooking(booking) {
+  const schema = {
+    user_id: Joi.number().min(1).max(10000).required(),
+    trip_id: Joi.number().min(1).max(10000).required(),
+    bus_id: Joi.number().min(1).max(10000),
+    trip_date: Joi.date().required(),
+    seat_number: Joi.number().min(1).max(10000).required(),
+    first_name: Joi.string().min(1).max(255),
+    last_name: Joi.string().min(1).max(255),
+    email: Joi.string().min(2).max(255).email().required()
+  };
+
+  return Joi.validate(booking, schema);
+}
+
 module.exports = {
   validate,
   validateUser,
   validateBus,
-  validateTrip
+  validateTrip,
+  validateBooking
 };
