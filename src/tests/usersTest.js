@@ -186,3 +186,30 @@ describe('POST /bookings endpoint', () => {
       });
   });
 });
+
+describe('GET /bookings endpoint', () => {
+  it('should NOT allow a user who is not an admin access to view all bookings in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/bookings')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 403);
+        assert.typeOf(res.body, 'object');
+        done();
+      });
+  });
+});
+
+describe('GET /bookings endpoint', () => {
+  it('should allow a user access to view only THEIR booking(s) in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/users/2/bookings')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        done();
+      });
+  });
+});
+

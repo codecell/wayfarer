@@ -5,7 +5,7 @@ import pool from './db';
  */
 const createUsersTable = `CREATE TABLE 
     users ( 
-    id SERIAL PRIMARY KEY UNIQUE,
+    user_id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
@@ -15,7 +15,7 @@ const createUsersTable = `CREATE TABLE
 
 const createBusesTable = `CREATE TABLE 
     buses ( 
-    id SERIAL PRIMARY KEY UNIQUE,
+    bus_id SERIAL PRIMARY KEY,
     number_plate TEXT UNIQUE NOT NULL,
     manufacturer TEXT NOT NULL,
     model TEXT NOT NULL,
@@ -25,31 +25,32 @@ const createBusesTable = `CREATE TABLE
 
 const createTripsTable = `CREATE TABLE 
     trips (
-    id SERIAL PRIMARY KEY UNIQUE ,
+    trip_id SERIAL PRIMARY KEY,
     bus_id INT NOT NULL,
     origin TEXT NOT NULL,
     destination TEXT NOT NULL,
     trip_date DATE DEFAULT current_date,
     fare FLOAT NOT NULL,
     status TEXT,
-    FOREIGN KEY (bus_id) REFERENCES buses(id)
+    FOREIGN KEY (bus_id) REFERENCES buses(bus_id)
     )`;
 
 const createBookingsTable = `CREATE TABLE 
-    bookings (id SERIAL,
+    bookings (
+    booking_id SERIAL,
     user_id INT NOT NULL,
     trip_id INT NOT NULL,
     trip_date DATE DEFAULT current_date,
     bus_id INT NOT NULL,
-    seat_number INT NOT NULL UNIQUE,
+    seat_number INT NOT NULL,
     created_on DATE DEFAULT current_date,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
+    email TEXT NOT NULL,
     FOREIGN KEY (email) REFERENCES users(email),
-    FOREIGN KEY (trip_id) REFERENCES trips(id),
-    FOREIGN KEY (bus_id) REFERENCES buses(id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (trip_id) REFERENCES trips(trip_id),
+    FOREIGN KEY (bus_id) REFERENCES buses(bus_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     PRIMARY KEY (trip_id, user_id)
     )`;  
 

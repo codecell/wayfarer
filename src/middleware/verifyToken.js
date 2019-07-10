@@ -14,7 +14,7 @@ export default async function verifyToken(req, res, next) {
   if (!token) {
     return res
       .status(400)
-      .json({ status: 'Error', data: { message: 'No token Provided' } });
+      .json({ status: 'error', data: { message: 'No token Provided' } });
   }
 
   try {
@@ -23,7 +23,7 @@ export default async function verifyToken(req, res, next) {
     if (!rows[0]) {
       return res
         .status(400)
-        .json({ status: 'Error', data: { message: 'Invalid Token' } });
+        .json({ status: 'error', data: { message: 'Invalid Token' } });
     }
 
     req.user = { id: decoded.id, is_admin: decoded.is_admin };
@@ -33,7 +33,7 @@ export default async function verifyToken(req, res, next) {
     if (ex) {
       return res
         .status(500)
-        .json({ status: 'Error', data: { message: ex.message } });
+        .json({ status: 'error', data: { message: ex.message } });
     }          
   }
 }
