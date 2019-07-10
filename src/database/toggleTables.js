@@ -35,6 +35,24 @@ const createTripsTable = `CREATE TABLE
     FOREIGN KEY (bus_id) REFERENCES buses(id)
     )`;
 
+const createBookingsTable = `CREATE TABLE 
+    bookings (id SERIAL,
+    user_id INT NOT NULL,
+    trip_id INT NOT NULL,
+    trip_date DATE DEFAULT current_date,
+    bus_id INT NOT NULL,
+    seat_number INT NOT NULL UNIQUE,
+    created_on DATE DEFAULT current_date,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    FOREIGN KEY (email) REFERENCES users(email),
+    FOREIGN KEY (trip_id) REFERENCES trips(id),
+    FOREIGN KEY (bus_id) REFERENCES buses(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    PRIMARY KEY (trip_id, user_id)
+    )`;  
+
 
 /**
  * toggle all collections
@@ -50,10 +68,11 @@ const toggleDatabase = queryString => pool.query(queryString)
   });
 
 toggleDatabase(`
-DROP TABLE IF EXISTS users; 
-DROP TABLE IF EXISTS trips;
-DROP TABLE IF EXISTS buses;
-${createUsersTable};
-${createBusesTable};
-${createTripsTable};
-`);
+  DROP TABLE IF EXISTS bookings;
+  DROP TABLE IF EXISTS users; 
+  DROP TABLE IF EXISTS trips;
+  DROP TABLE IF EXISTS buses;
+  ${createUsersTable};
+  ${createBusesTable};
+  ${createTripsTable};
+  ${createBookingsTable};`);

@@ -37,6 +37,17 @@ const bus = {
   capacity: 35
 };
 
+const booking = {
+  user_id: 2,
+  trip_id: 1,
+  trip_date: '2019-04-05',
+  bus_id: 1,
+  seat_number: 4,
+  first_name: 'john',
+  last_name: 'doe',
+  email: 'test@domain.com'
+};
+
 let token;
 
 describe('POST api/v1/auth/signup', () => {
@@ -156,6 +167,21 @@ describe('PATCH /trips endpoint', () => {
         assert.equal(res.status, 403);
         assert.typeOf(res.body, 'object');
         assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        done();
+      });
+  });
+});
+
+describe('POST /bookings endpoint', () => {
+  it('should allow a user access to place a booking', (done) => {
+    chai.request(app)
+      .post('/api/v1/bookings')
+      .set('x-auth-token', token)
+      .send(booking)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.email, 'test@domain.com');
         done();
       });
   });

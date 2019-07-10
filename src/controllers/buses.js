@@ -12,10 +12,10 @@ const Bus = {
       number_plate, manufacturer, model, year_manufactured, capacity 
     } = req.body;
     try {
-      const newBusProps = [number_plate, manufacturer, model, year_manufactured, capacity];
-      const { rows } = await busModel.createBus(newBusProps);
+      const busValues = [number_plate, manufacturer, model, year_manufactured, capacity];
+      const { rows } = await busModel.createBus(busValues);
       return res.status(201).json({ 
-        status: 'Success',
+        status: 'success',
         data: {
           bus: rows[0]
         }

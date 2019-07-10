@@ -5,6 +5,7 @@ import usersRoutes from './routes/users';
 import authRoutes from './routes/auth';
 import busRoutes from './routes/buses';
 import tripRoutes from './routes/trips';
+import bookingRoutes from './routes/bookings';
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ authRoutes(app);
 usersRoutes(app);
 busRoutes(app);
 tripRoutes(app);
+bookingRoutes(app);
 
 const port = process.env.port || 3000;
 

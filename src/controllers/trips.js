@@ -15,8 +15,8 @@ const Trip = {
     req.body.status = 'active';
 
     try {
-      const newTripProps = [bus_id, origin, destination, req.body.trip_date, fare, req.body.status];
-      const { rows } = await tripModel.createTrip(newTripProps);
+      const tripValues = [bus_id, origin, destination, req.body.trip_date, fare, req.body.status];
+      const { rows } = await tripModel.createTrip(tripValues);
       return res.status(201).json({ 
         status: 'Success',
         data: { 
