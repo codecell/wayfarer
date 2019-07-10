@@ -18,9 +18,9 @@ const Trip = {
       const tripValues = [bus_id, origin, destination, req.body.trip_date, fare, req.body.status];
       const { rows } = await tripModel.createTrip(tripValues);
       return res.status(201).json({ 
-        status: 'Success',
+        status: 'success',
         data: { 
-          trip_id: rows[0].id,
+          trip_id: rows[0].trip_id,
           bus_id: rows[0].bus_id,
           origin: rows[0].origin,
           destination: rows[0].destination,
@@ -30,7 +30,7 @@ const Trip = {
         } 
       });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
     }
   },
 
@@ -42,9 +42,9 @@ const Trip = {
   async getTrips(req, res) {
     try {
       const { rows } = await tripModel.getAllTrips();
-      return res.status(200).json({ status: 'Success', data: rows });
+      return res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
     }
   },
 
@@ -57,11 +57,11 @@ const Trip = {
     try {
       const { rows } = await tripModel.selectTripById(req.params.id);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'Error', data: { message: 'TRIP WITH GIVEN ID NOT FOUND' } });
+        return res.status(404).json({ status: 'error', data: { message: 'TRIP WITH GIVEN ID NOT FOUND' } });
       }
-      return res.status(200).json({ status: 'SUCCESS', data: rows[0] });
+      return res.status(200).json({ status: 'success', data: rows[0] });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
     }
   },  
 
@@ -76,13 +76,13 @@ const Trip = {
     try {
       const { rows } = await tripModel.selectTripById(req.params.id);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'Error', data: { message: 'Trip with given id not found' } });
+        return res.status(404).json({ status: 'error', data: { message: 'Trip with given id not found' } });
       }
 
       await tripModel.updateTripStatusById(req.params.id, [status]);
-      return res.status(200).json({ status: 'SUCCESS', data: { message: 'Trip cancelled successfully' } });
+      return res.status(200).json({ status: 'success', data: { message: 'Trip cancelled successfully' } });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
     }
   }
 };

@@ -22,7 +22,7 @@ const Bus = {
       });
     } catch (ex) {
       if (ex) {
-        return res.status(500).json({ status: 'Error', data: { message: ex.message } });
+        return res.status(500).json({ status: 'error', data: { message: ex.message } });
       }   
     }
   }

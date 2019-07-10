@@ -97,3 +97,17 @@ describe('PATCH /trips endpoint', () => {
       });
   });
 });
+
+describe('GET /bookings endpoint', () => {
+  it('should allow an admin access to view all bookings in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/bookings')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.status, 'success');
+        done();
+      });
+  });
+});

@@ -26,19 +26,19 @@ const Auth = {
       ];
       const { rows } = await userModel.createUser(signupValues);
 
-      const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
+      const token = await generateAuthToken(rows[0].user_id, rows[0].is_admin);
 
       return res.status(201).json({
-        status: 'SUCCESS!',
+        status: 'success',
         data: {
-          user_id: rows[0].id,
+          user_id: rows[0].user_id,
           is_admin: rows[0].is_admin,
           token,
           first_name: rows[0].first_name
         }
       });
     } catch (ex) {
-      if (ex) { return res.status(500).send({ status: 'Error', error: ex.message }); }
+      if (ex) { return res.status(500).send({ status: 'error', error: ex.message }); }
     }
   },
 
@@ -52,7 +52,7 @@ const Auth = {
       return res
         .status(400)
         .json({
-          status: 'Error',
+          status: 'error',
           data: { message: 'Incomplete Login Credentials' }
         });
     }
@@ -61,7 +61,7 @@ const Auth = {
     if (!validEmail) { 
       return res
         .status(400)
-        .json({ status: 'Error', data: { message: 'Invalid Email' } }); 
+        .json({ status: 'error', data: { message: 'invalid email' } }); 
     }
 
     try {
@@ -70,7 +70,7 @@ const Auth = {
         return res
           .status(401)
           .json({
-            status: 'Error',
+            status: 'error',
             data: { message: 'Incorrect Credentials' }
           });
       }
@@ -82,19 +82,19 @@ const Auth = {
       if (!validPassword) {
         return res
           .status(401)
-          .json({ status: 'Error', data: { message: 'Invalid Password' } });
+          .json({ status: 'error', data: { message: 'Invalid Password' } });
       }
 
       if (!rows[0].is_admin) {
         rows[0].is_admin = false;
       }
 
-      const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
+      const token = await generateAuthToken(rows[0].user_id, rows[0].is_admin);
 
       return res.status(200).json({
-        status: 'Success',
+        status: 'success',
         data: {
-          user_id: rows[0].id,
+          user_id: rows[0].user_id,
           is_admin: rows[0].is_admin,
           token,
           first_name: rows[0].first_name
@@ -104,7 +104,7 @@ const Auth = {
       if (ex) {
         return res
           .status(500)
-          .json({ status: 'Error', data: { message: ex.message } });
+          .json({ status: 'error', data: { message: ex.message } });
       }
     }
   }

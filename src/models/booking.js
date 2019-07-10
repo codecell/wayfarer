@@ -12,7 +12,28 @@ const bookingModel = {
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
       bookingProps
     );
+  },
+
+  /**
+   * select all saved bookings in the DB
+   */
+  selectAllBookings() {
+    return pool.query(
+      'SELECT * FROM bookings ORDER BY booking_id ASC'
+    );
+  },
+
+  /**
+   * select a given booking of id bookingId
+   * @param {int} bookingId 
+   */
+  selectBookingByUserId(userId) {
+    return pool.query(
+      'SELECT * FROM bookings WHERE user_id = $1', 
+      [userId]
+    );
   }
+
 };
 
 export default bookingModel;

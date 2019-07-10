@@ -18,7 +18,7 @@ const userModel = {
    */
   getAllUsers() {
     return pool.query(
-      'SELECT id, email, first_name, last_name, is_admin FROM users ORDER BY id ASC'
+      'SELECT user_id, email, first_name, last_name, is_admin FROM users ORDER BY user_id ASC'
     );
   },
 
@@ -28,7 +28,7 @@ const userModel = {
    */
   findUserById(id) {
     return pool.query(
-      'SELECT id, is_admin, first_name FROM users WHERE id = $1',
+      'SELECT user_id, is_admin, first_name FROM users WHERE user_id = $1',
       [id]
     );
   },

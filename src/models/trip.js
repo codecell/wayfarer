@@ -20,18 +20,18 @@ const tripModel = {
    */
   getAllTrips() {
     return pool.query(
-      'SELECT * FROM trips ORDER BY id ASC'
+      'SELECT * FROM trips ORDER BY trip_id ASC'
     );
   },
 
   /**
-   * select trip with id
-   * @param {string || number} id 
+   * select given trip id tripId
+   * @param {number} tripId 
    */
-  selectTripById(id) {
+  selectTripById(tripId) {
     return pool.query(
-      'SELECT * FROM trips WHERE id = $1', 
-      [id]
+      'SELECT * FROM trips WHERE trip_id = $1', 
+      [tripId]
     );
   },
   
@@ -45,7 +45,7 @@ const tripModel = {
     return pool.query(
       `UPDATE trips SET 
            status = $1 
-          WHERE id = $2 RETURNING *`,
+          WHERE trip_id = $2 RETURNING *`,
       [...Object.values(trip), id]
     );
   }
