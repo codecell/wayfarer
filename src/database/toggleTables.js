@@ -32,7 +32,7 @@ const createTripsTable = `CREATE TABLE
     trip_date DATE DEFAULT current_date,
     fare FLOAT NOT NULL,
     status TEXT,
-    FOREIGN KEY (bus_id) REFERENCES buses(bus_id)
+    FOREIGN KEY (bus_id) REFERENCES buses(bus_id) ON DELETE CASCADE
     )`;
 
 const createBookingsTable = `CREATE TABLE 
