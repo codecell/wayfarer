@@ -42,7 +42,9 @@ const Trip = {
   async getTrips(req, res) {
     try {
       const { rows } = await tripModel.getAllTrips();
-      return res.status(200).json({ status: 'success', data: rows });
+      return rows.length === 0
+        ? res.status(202).json({ message: 'No trip created yet' })
+        : res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
     }
@@ -59,6 +61,7 @@ const Trip = {
       if (!rows[0]) {
         return res.status(404).json({ status: 'error', data: { message: 'TRIP WITH GIVEN ID NOT FOUND' } });
       }
+      
       return res.status(200).json({ status: 'success', data: rows[0] });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
@@ -83,6 +86,25 @@ const Trip = {
       return res.status(200).json({ status: 'success', data: { message: 'Trip cancelled successfully' } });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+    }
+  },
+
+  /**
+   * Delete a given trip
+   * @param {*} req 
+   * @param {*} res 
+   */
+  async deleteTrip(req, res) {
+    try {
+      const { rows } = await tripModel.selectTripById(req.params.tripId);
+      if (!rows[0]) {
+        return res.status(404).json({ status: 'error', data: { message: 'Trip with given id not found' } });
+      }
+
+      await tripModel.removeTripById(req.params.tripId);
+      return res.status(200).json({ status: 'success', data: { message: 'Trip deleted successfully' } });
+    } catch (ex) {
+      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } }); 
     }
   }
 };

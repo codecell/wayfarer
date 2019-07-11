@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
@@ -201,7 +202,7 @@ describe('GET /bookings endpoint', () => {
 });
 
 describe('GET /bookings endpoint', () => {
-  it('should allow a user access to view only THEIR booking(s) in the DB', (done) => {
+  it('should allow a user access to view only THEIR booking(s)', (done) => {
     chai.request(app)
       .get('/api/v1/users/2/bookings')
       .set('x-auth-token', token)
@@ -214,7 +215,7 @@ describe('GET /bookings endpoint', () => {
 });
 
 describe('DELETE /bookings endpoint', () => {
-  it('should allow a user access to DELETE only THEIR booking(s) in the DB', (done) => {
+  it('should allow a user access to DELETE only THEIR booking(s)', (done) => {
     chai.request(app)
       .delete('/api/v1/bookings/1')
       .set('x-auth-token', token)
@@ -227,3 +228,16 @@ describe('DELETE /bookings endpoint', () => {
   });
 });
 
+describe('user DELETE /trips endpoint', () => {
+  it('should NOT allow a user who is NOT an ADMIN access to DELETE a trip', (done) => {
+    chai.request(app)
+      .delete('/api/v1/trips/2')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 403);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        done();
+      });
+  });
+});
