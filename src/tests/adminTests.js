@@ -29,6 +29,14 @@ const bus = {
   capacity: 35
 };
 
+const secondBus = {
+  number_plate: 'efg2',
+  manufacturer: 'noble motors',
+  model: 'a-class',
+  year_manufactured: '2018',
+  capacity: 20
+};
+
 describe('POST /auth/signin', () => {
   it('Should login an admin user', (done) => {
     chai.request(app)
@@ -47,6 +55,20 @@ describe('POST /buses endpoint', () => {
     chai.request(app)
       .post('/api/v1/buses')
       .send(bus)
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        assert.typeOf(res.body, 'object');
+        done();
+      });
+  });
+});
+
+describe('POST /buses endpoint', () => {
+  it('should allow an Admin user access to post a bus', (done) => {
+    chai.request(app)
+      .post('/api/v1/buses')
+      .send(secondBus)
       .set('x-auth-token', token)
       .end((err, res) => {
         assert.equal(res.status, 201);
@@ -107,6 +129,66 @@ describe('GET /bookings endpoint', () => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
         assert.equal(res.body.status, 'success');
+        done();
+      });
+  });
+});
+
+describe('GET /buses endpoint', () => {
+  it('should allow an Admin access to view all buses in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/buses')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.status, 'success');
+        done();
+      });
+  });
+  it('should allow an Admin access to view particular bus in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/buses/1')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.status, 'success');
+        done();
+      });
+  });  
+});
+
+describe('PATCH /buses endpoint', () => {
+  it('should allow an Admin access to update a particular bus in the DB', (done) => {
+    chai.request(app)
+      .patch('/api/v1/buses/1')
+      .set('x-auth-token', token)
+      .send({
+        number_plate: 'abc22',
+        manufacturer: 'toyot-update',
+        model: 'c-class-update',
+        year_manufactured: '2020',
+        capacity: 10
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'Bus updated successfully');
+        done();
+      });
+  });
+});
+
+describe('DELETE /buses endpoint', () => {
+  it('should allow an Admin access to DELETE a bus in the DB', (done) => {
+    chai.request(app)
+      .delete('/api/v1/buses/2')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'Bus deleted successfully');
         done();
       });
   });
