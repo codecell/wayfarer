@@ -41,9 +41,9 @@ const Trip = {
    */
   async getTrips(req, res) {
     try {
-      const { rows } = await tripModel.getAllTrips();
+      const { rows } = await tripModel.getAllTrips(req.query);
       return rows.length === 0
-        ? res.status(202).json({ message: 'No trip created yet' })
+        ? res.status(200).json({ message: 'No trip created yet' })
         : res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
