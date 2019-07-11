@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import usersRoutes from './routes/users';
 import authRoutes from './routes/auth';
+import usersRoutes from './routes/users';
 import busRoutes from './routes/buses';
 import tripRoutes from './routes/trips';
 import bookingRoutes from './routes/bookings';

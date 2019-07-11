@@ -213,3 +213,17 @@ describe('GET /bookings endpoint', () => {
   });
 });
 
+describe('DELETE /bookings endpoint', () => {
+  it('should allow a user access to DELETE only THEIR booking(s) in the DB', (done) => {
+    chai.request(app)
+      .delete('/api/v1/bookings/1')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'Booking deleted successfully');
+        done();
+      });
+  });
+});
+

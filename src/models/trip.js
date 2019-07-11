@@ -7,6 +7,7 @@ const tripModel = {
      * @param {array} tripProps 
      */
   createTrip(tripProps) {
+    
     return pool.query(
       `INSERT INTO
        trips( bus_id, origin, destination, trip_date, fare, status ) 
