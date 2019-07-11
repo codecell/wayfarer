@@ -10,5 +10,6 @@ export default function tripRoutes(app) {
 
   app.route('/api/v1/trips/:tripId')
     .get([verifyToken], Trip.getTripById)
-    .patch([verifyToken, admin], Trip.cancelTrip); 
+    .patch([verifyToken, admin], Trip.cancelTrip)
+    .delete([verifyToken, admin], Trip.deleteTrip); 
 }

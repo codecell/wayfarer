@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
@@ -20,6 +21,12 @@ const trip = {
   fare: 30.5
 };
 
+const secondTrip = {
+  bus_id: 1,
+  origin: 'Lagos',
+  destination: 'Madrid',
+  fare: 50.7
+};
 
 const bus = {
   number_plate: 'abc1',
@@ -91,6 +98,19 @@ describe('POST /trips endpoint', () => {
       });
   });
 });
+describe('POST /trips endpoint', () => {
+  it('should allow an Admin user access to create a trip', (done) => {
+    chai.request(app)
+      .post('/api/v1/trips')
+      .set('x-auth-token', token)
+      .send(secondTrip)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        assert.typeOf(res.body, 'object');
+        done();
+      });
+  });
+});
 
 describe('GET /trips/:id endpoint', () => {
   it('should allow an Admin user access to view a particular trip', (done) => {
@@ -129,6 +149,20 @@ describe('GET /bookings endpoint', () => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
         assert.equal(res.body.status, 'success');
+        done();
+      });
+  });
+});
+
+describe('DELETE /trips endpoint', () => {
+  it('should allow an Admin access to DELETE a trip in the DB', (done) => {
+    chai.request(app)
+      .delete('/api/v1/trips/2')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.message, 'Trip deleted successfully');
         done();
       });
   });

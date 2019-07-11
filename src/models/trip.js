@@ -6,8 +6,7 @@ const tripModel = {
      * save a trip to the DB
      * @param {array} tripProps 
      */
-  createTrip(tripProps) {
-    
+  createTrip(tripProps) {    
     return pool.query(
       `INSERT INTO
        trips( bus_id, origin, destination, trip_date, fare, status ) 
@@ -49,8 +48,18 @@ const tripModel = {
           WHERE trip_id = $2 RETURNING *`,
       [...Object.values(trip), id]
     );
+  },
+
+  /**
+   * remove a trip of ID tripId from trips collection
+   * @param {*} tripId 
+   */
+  removeTripById(tripId) {
+    return pool.query(
+      'DELETE FROM trips WHERE trip_id = $1 RETURNING *',
+      [tripId]      
+    );
   }
 };
-
 
 export default tripModel;
