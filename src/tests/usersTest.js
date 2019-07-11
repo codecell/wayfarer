@@ -115,7 +115,7 @@ describe('POST /auth/signin', () => {
   });
 });
 
-describe('GET /trips', () => {
+describe('GET /trips endpoint', () => {
   it('should grant a user access to view all trips', (done) => {
     chai.request(app)
       .get('/api/v1/trips')
@@ -127,6 +127,33 @@ describe('GET /trips', () => {
       });
   });
 });
+
+describe('FILTER GET /trips endpoint', () => {
+  it('should grant a user access to view all trips from the same on origin', (done) => {
+    chai.request(app)
+      .get('/api/v1/trips?origin=ilasa')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data[0].fare, 30.5);
+        done();
+      });
+  });
+
+  it('should grant a user access to view all trips headed to same destination', (done) => {
+    chai.request(app)
+      .get('/api/v1/trips?destination=agungu')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data[0].fare, 30.5);
+        done();
+      });
+  });
+});
+
 describe('POST /buses endpoint', () => {
   it('should not allow a user who is NOT AN ADMIN access to post a bus', (done) => {
     chai.request(app)

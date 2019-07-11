@@ -18,7 +18,21 @@ const tripModel = {
   /**
    * view all trips in the DB
    */
-  getAllTrips() {
+  getAllTrips(filter) {
+    if (filter.origin) {
+      return pool.query(
+        'SELECT * FROM trips WHERE origin = $1 ORDER BY trip_id ASC',
+        [filter.origin]
+      );
+    }
+    
+    if (filter.destination) {
+      return pool.query(
+        'SELECT * FROM trips WHERE destination = $1 ORDER BY trip_id ASC',
+        [filter.destination]
+      );
+    }
+
     return pool.query(
       'SELECT * FROM trips ORDER BY trip_id ASC'
     );
