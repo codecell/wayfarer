@@ -25,12 +25,23 @@ const bookingModel = {
 
   /**
    * select a given booking of id bookingId
-   * @param {int} bookingId 
+   * @param {number} bookingId 
    */
   selectBookingByUserId(userId) {
     return pool.query(
       'SELECT * FROM bookings WHERE user_id = $1', 
       [userId]
+    );
+  },
+
+  /**
+   * delete booking of id bookingId from the DB
+   * @param {number} bookigId 
+   */
+  deleteBookingById(bookingId) {
+    return pool.query(
+      'DELETE FROM bookings WHERE booking_id = $1 RETURNING *', 
+      [bookingId]
     );
   }
 

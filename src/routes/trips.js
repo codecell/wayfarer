@@ -8,7 +8,7 @@ export default function tripRoutes(app) {
     .post([verifyToken, admin, validate(validateTrip)], Trip.postTrip)
     .get([verifyToken], Trip.getTrips);
 
-  app.route('/api/v1/trips/:id')
+  app.route('/api/v1/trips/:tripId')
     .get([verifyToken], Trip.getTripById)
     .patch([verifyToken, admin], Trip.cancelTrip); 
 }

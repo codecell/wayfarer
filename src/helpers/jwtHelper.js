@@ -10,7 +10,9 @@ require('dotenv').config();
  */
 export default function generateAuthToken(id, is_admin) {
   const token = jwt.sign(
-    { id, is_admin }, process.env.JWT_PRIVATE_KEY, { expiresIn: '7d' }
+    { id, is_admin },
+    process.env.JWT_PRIVATE_KEY,
+    { expiresIn: '7d' }
   );
   return token;
 }

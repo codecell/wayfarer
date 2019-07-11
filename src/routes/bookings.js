@@ -8,6 +8,9 @@ export default function bookingRoutes(app) {
     .post([verifyToken, validate(validateBooking)], Booking.postBooking)
     .get([verifyToken, admin], Booking.getBookings);
 
-  app.route('/api/v1/users/:id/bookings')
-    .get([verifyToken], Booking.getBookingByUserId);
+  app.route('/api/v1/users/:bookingId/bookings')
+    .get(verifyToken, Booking.getBookingByUserId);
+    
+  app.route('/api/v1/bookings/:bookingId')
+    .delete(verifyToken, Booking.removeBooking);  
 }

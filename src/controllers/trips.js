@@ -55,7 +55,7 @@ const Trip = {
      */
   async getTripById(req, res) {
     try {
-      const { rows } = await tripModel.selectTripById(req.params.id);
+      const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
         return res.status(404).json({ status: 'error', data: { message: 'TRIP WITH GIVEN ID NOT FOUND' } });
       }
@@ -74,7 +74,7 @@ const Trip = {
     const { status } = req.body;
 
     try {
-      const { rows } = await tripModel.selectTripById(req.params.id);
+      const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
         return res.status(404).json({ status: 'error', data: { message: 'Trip with given id not found' } });
       }
