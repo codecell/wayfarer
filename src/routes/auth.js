@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import Auth from '../controllers/auth';
 import { validate, validateUser } from '../middleware/validate';
 

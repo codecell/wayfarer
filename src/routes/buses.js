@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import { validate, validateBus } from '../middleware/validate';
 import verifyToken from '../middleware/verifyToken';
 import admin from '../middleware/admin';
