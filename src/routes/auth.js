@@ -7,5 +7,5 @@ export default function (app) {
     .post([validate(validateUser)], Auth.postUser);
         
   app.route('/api/v1/auth/signin')
-    .post(Auth.login);
+    .post(Auth.signin);
 }
