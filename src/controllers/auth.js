@@ -31,6 +31,7 @@ const Auth = {
       return res.status(201).json({
         status: 'success',
         data: {
+          message: 'Signed up successfully',
           user_id: rows[0].user_id,
           is_admin: rows[0].is_admin,
           token,
@@ -47,7 +48,7 @@ const Auth = {
    * @param {Object} req
    * @param {Object} res
    */
-  async login(req, res) {
+  async signin(req, res) {
     if (!req.body.email || !req.body.password) {
       return res
         .status(400)
@@ -94,6 +95,7 @@ const Auth = {
       return res.status(200).json({
         status: 'success',
         data: {
+          message: 'Signed in successfully',
           user_id: rows[0].user_id,
           is_admin: rows[0].is_admin,
           token,

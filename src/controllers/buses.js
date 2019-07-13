@@ -17,6 +17,7 @@ const Bus = {
       return res.status(201).json({ 
         status: 'success',
         data: {
+          message: 'Bus successfully added!',
           bus: rows[0]
         }
       });

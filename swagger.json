@@ -1,0 +1,806 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1",
+      "title": "Wayfarer App",
+      "description": "WayFarer App is a public bus transportation booking service"
+    },
+
+    "host": "localhost",
+    "basePath": "/api/v1/",
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "API for clients to signup and for signing into the system"
+        },
+        {
+          "name": "Users",
+          "description": "API for users in the system"
+        },
+        {
+            "name": "Buses",
+            "description": "API for buses to be used for the trips"
+        },
+        {
+            "name": "Trips",
+            "description": "API for the trips that users can book from in the system"
+        },
+        {
+          "name": "Bookings",
+          "description": "API for all users' bookings in the system"
+        }                
+    ],
+
+    "schemes": [
+        "https", "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+
+    "paths": {
+        "/auth/signup": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Creates an account for a new client",
+                "parameters":
+                    [
+                      {
+                        "name": "Auth",
+                        "in": "body",
+                        "description": "The details of the user",
+                        "schema": {
+                          "$ref": "#/definitions/user"
+                        }
+                      }
+                    ],
+                "responses": {
+                    "201": {
+                      "description": "A new user is created",
+                      "schema": {
+                        "$ref": "#/definitions/user"
+                      }
+                    },
+                    "400": {
+                      "description": "Error - Missing required fields"
+                    }
+                }
+            }
+        },
+        "/auth/signin": {
+                "post": {
+                  "tags": ["Auth"],
+                  "summary": "Logs in a new user",
+                  "consumes": ["application/x-www-form-urlencoded"],
+                  "parameters":
+                    [
+                      {
+                        "name": "email",
+                        "in": "formData",
+                        "required": true,
+                        "description": "The email of the user",
+                        "type": "string"
+                      },
+                      {
+                        "name": "password",
+                        "in": "formData",
+                        "required": true,
+                        "description": "The password of the user",
+                        "type": "string"
+                      }
+                    ],
+                  "responses": {
+                    "200": {
+                      "description": "User is logged in",
+                      "schema": {
+                        "$ref": "#/definitions/user"
+                      }
+                    },
+                    "401": {
+                      "description": "Invalid Credentials"
+                    }
+                  }
+                }
+        },
+
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users, only available to Admins",
+                "parameters": [
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The Admin access token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                       "200": {
+                        "description": "Returns all users in the database users collection",
+                        "schema": {
+                          "$ref": "#/definitions/user"
+                        }
+                },
+                "403": {
+                        "description": "Access denied for a non-admin user"
+                    }
+                }
+            } 
+        },
+        "/users/:userId": {
+            "get":{
+                "tags": [
+                    "Users"
+                  ],
+                  "summary": "Get user with given ID, only available to Admins",
+                  "responses": {
+                     "200": {
+                      "description": "Returns the specified user",
+                      "schema": {
+                        "$ref": "#/definitions/userResponse"
+                      }
+                    },
+                    "404": {
+                      "description": " no such user in the DB"
+                    },
+                    "403": {
+                      "description": "Invalid token, not an Admin"
+                    }
+                }
+            }
+        },
+
+        "/buses": {
+            "post": {
+                "tags": [
+                    "Buses"
+                 ],
+                "summary": "Add a new bus to be used for a trip, only available to Admins",
+                "parameters": [
+                    {
+                        "name": "bus",
+                        "in": "body",
+                        "description": "The new bus to be added",
+                        "schema": {
+                          "$ref": "#/definitions/bus"
+                        }
+                    },
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The authentication token",
+                        "type": "string"
+                    }
+                    ],
+                "responses": {
+                      "201": {
+                        "description": "A new bus is added",
+                        "schema": {
+                          "$ref": "#/definitions/busResponse"
+                        }
+                      },
+                      "400": {
+                        "description": "Did not create the bus"
+                      },
+                      "403": {
+                        "description": "ACCESS DENIED, YOU ARE NOT AN ADMIN"
+                      }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Buses"
+                ],
+                "summary": "Get all buses, only available to Admins",
+                "parameters": [
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The Admin access token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                       "200": {
+                        "description": "Returns all buses in the database buses collection",
+                        "schema": {
+                          "$ref": "#/definitions/buses"
+                        }
+                },
+                "403": {
+                        "description": "Access denied for a non-admin user"
+                      }
+                }
+            },
+            "patch": {
+                "summary": "Updates the bus with the given ID, only available to admin",
+                "tags": [
+                  "Buses"
+                ],
+                "parameters": [
+                  {
+                    "name": "buses",
+                    "in": "body",
+                    "description": "The new details of bus",
+                    "schema": {
+                      "$ref": "#/definitions/busResponse"
+                    }
+                  },
+                  {
+                    "name": "x-auth-token",
+                    "in": "header",
+                    "description": "The authentication token",
+                    "type": "string"
+                  }
+                ],
+                "responses": {
+                   "200": {
+                    "description": "Updated bus"
+                  },
+                  "404": {
+                    "description": " Could not update bus"
+                  },
+                  "403": {
+                    "description": "Invalid token, not an admin"
+                  }
+                }
+            },
+
+            "delete": {
+                "summary": "Deletes the bus with the given ID, only available to admin",
+                "tags": [
+                  "Buses"
+                ],
+                "parameters": [
+                  {
+                    "name": "buse-id",
+                    "in": "body",
+                    "description": "The ID of bus to be deleted",
+                    "schema": {
+                      "$ref": "#/definitions/busResponse"
+                    }
+                  },
+                  {
+                    "name": "x-auth-token",
+                    "in": "header",
+                    "description": "The authentication token",
+                    "type": "string"
+                  }
+                ],
+                "responses": {
+                   "200": {
+                    "description": "Deleted bus successfully"
+                  },
+                  "404": {
+                    "description": "Bus with given does'nt exist"
+                  },
+                  "403": {
+                    "description": "Invalid token, not an admin"
+                  }
+                }
+                
+            }
+        },
+        "/buses/:busId": {
+            "get": {
+                "tags": [
+                    "Buses"
+                  ],
+                "summary": "Get bus with given ID, only available to Admins",
+                "responses": {
+                     "200": {
+                      "description": "Returns the specified bus",
+                      "schema": {
+                        "$ref": "#/definitions/busResponse"
+                      }
+                    },
+                    "404": {
+                      "description": "Could not find bus"
+                    },
+                    "403": {
+                      "description": "Invalid token, not an Admin"
+                    }
+                }
+            }               
+        },
+
+        "/trips": {
+            "post": {
+                "tags": [
+                    "Trips"
+                 ],
+                "summary": "Post a new trip to be made available to users for bookings, only available to Admins",
+                "parameters": [
+                    {
+                        "name": "trip",
+                        "in": "body",
+                        "description": "The new trip to be created",
+                        "schema": {
+                          "$ref": "#/definitions/trip"
+                        }
+                    },
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The authentication token",
+                        "type": "string"
+                    }
+                    ],
+                "responses": {
+                      "201": {
+                        "description": "A new trip is created",
+                        "schema": {
+                          "$ref": "#/definitions/tripResponse"
+                        }
+                      },
+                      "400": {
+                        "description": "Did not create the trip"
+                      },
+                      "403": {
+                        "description": "ACCESS DENIED, YOU ARE NOT AN ADMIN"
+                      }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Trips"
+                ],
+                "summary": "Get all trips, Both users and admins can view all trips",
+                "parameters": [
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The Admin access token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                       "200": {
+                        "description": "Returns all trips in the database trips collection",
+                        "schema": {
+                          "$ref": "#/definitions/trips"
+                        }
+                },
+                "500": {
+                        "description": "Something went wrong, internal server error"
+                      }
+                }
+            },
+            "patch": {
+                "summary": "Cancel a trip, Updates status of trip with given ID, only available to Admin",
+                "tags": [
+                  "Trips"
+                ],
+                "parameters": [
+                  {
+                    "name": "trip",
+                    "in": "body",
+                    "description": "The new status of trip",
+                    "schema": {
+                      "$ref": "#/definitions/tripResponse"
+                    }
+                  },
+                  {
+                    "name": "x-auth-token",
+                    "in": "header",
+                    "description": "The authentication token",
+                    "type": "string"
+                  }
+                ],
+                "responses": {
+                   "200": {
+                    "description": "Trip cancelled successfully"
+                  },
+                  "404": {
+                    "description": " Could not update trip, that trip ID doesn't exist "
+                  },
+                  "403": {
+                    "description": "Invalid token, not an admin"
+                  }
+                }
+            },
+            "delete": {
+                "summary": "Deletes the trip with the given ID, only available to admin",
+                "tags": [
+                  "Trips"
+                ],
+                "parameters": [
+                  {
+                    "name": "trip-id",
+                    "in": "body",
+                    "description": "The ID of trip to be deleted",
+                    "schema": {
+                      "$ref": "#/definitions/tripResponse"
+                    }
+                  },
+                  {
+                    "name": "x-auth-token",
+                    "in": "header",
+                    "description": "The authentication token",
+                    "type": "string"
+                  }
+                ],
+                "responses": {
+                   "200": {
+                    "description": "Trip deleted successfully"
+                  },
+                  "404": {
+                    "description": "Trip with given ID does'nt exist"
+                  },
+                  "403": {
+                    "description": "Invalid token, not an admin"
+                  }
+                }
+                
+            }
+        },
+        "/trips/:tripId": {
+            "get": {
+                "tags": [
+                    "Trips"
+                ],
+                "summary": "Get trip with given ID",
+                "responses": {
+                     "200": {
+                      "description": "Returns the specified trip",
+                      "schema": {
+                        "$ref": "#/definitions/busResponse"
+                      }
+                    },
+                    "404": {
+                      "description": "Could not find trip  wth that ID in the DB"
+                    },
+                    "500": {
+                      "description": "Something went wrong, internal server error"
+                    }
+                }
+            }            
+        },
+        
+        "/bookings": {
+            "post": {
+                "tags": [
+                    "Bookings"
+                 ],
+                "summary": "For users to make a new booking from the list  of available bookable trips",
+                "parameters": [
+                    {
+                        "name": "booking",
+                        "in": "body",
+                        "description": "The new booking to be created",
+                        "schema": {
+                          "$ref": "#/definitions/booking"
+                        }
+                    },
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The authentication token",
+                        "type": "string"
+                    }
+                    ],
+                "responses": {
+                    "201": {
+                        "description": "A new booking is created",
+                        "schema": {
+                          "$ref": "#/definitions/bookingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Did not create the booking, some required fields not inputed"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Get all bookings, only Admins can view all bookings made in the system",
+                "parameters": [
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The authentication token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                       "200": {
+                        "description": "Returns all bookings in the database bookings collection",
+                        "schema": {
+                          "$ref": "#/definitions/bookings"
+                        }
+                },
+                "403": {
+                        "description": "Access denied, non-admin tken provided"
+                      }
+                }
+            }
+        },
+        "/users/bookings/:bookingId": {
+            "get": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "A User can view all their bookings ONLY",
+                "parameters": [
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The authentication token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                       "200": {
+                        "description": "Returns all bookings made the user with given user ID in  bookings collection",
+                        "schema": {
+                          "$ref": "#/definitions/bookings"
+                        }
+                },
+                "500": {
+                        "description": "internal server error, something went wrong"
+                    }
+                }
+            }
+        },
+        "/bookings/:bookingId": {
+            "delete": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "A User can Delete his/her booking(s) ONLY.",
+                "parameters": [
+                    {
+                        "name": "x-auth-token",
+                        "in": "header",
+                        "description": "The authentication token",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                       "200": {
+                        "description": "Booking deleted successfully",
+                        "schema": {
+                          "$ref": "#/definitions/bookings"
+                        }
+                },
+                "500": {
+                        "description": "Internal server error, Something went wrong"
+                    }
+                }
+            }
+        }        
+    },
+
+    "definitions": {        
+        "user": {
+            "required": [
+                "email",
+                "password",
+                "first_name",
+                "last_ame"
+            ],
+            "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "is_admin": {
+                  "type": "boolean",
+                  "default": "false"
+                }
+            }
+        },
+        "userResponse": {
+            "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+        },
+        "bus": {
+          "required": [
+            "number_plate", "manufacturer", "model", "year_manufactured", "capacity"
+          ],
+          "properties": {
+            "number_plate": {
+              "type": "string"
+            },
+            "manufacturer": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            },
+            "year_manufactured": {
+              "type": "string"
+            },
+            "capacity": {
+                "type": "integer"
+            }
+          }
+        },
+        "busResponse": {
+            "properties": {
+                "bus_id": {
+                  "type":"integer"
+                },
+                "number_plate": {
+                  "type": "string"
+                },
+                "manufacturer": {
+                  "type": "string"
+                },
+                "model": {
+                  "type": "string"
+                },
+                "year_manufacturerd": {
+                  "type": "string"
+                },
+                "capacity": {
+                  "type": "integer"
+                }
+              }
+        },
+        "buses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/busResponse"
+            }
+        },
+
+        "trip": {
+            "required": [
+                "bus_id", "origin", "destination", "trip_date", "fare", "status"
+            ],
+            "properties": {
+              "bus_id": {
+                "type": "integer"
+              },
+              "origin": {
+                "type": "string"
+              },
+              "destination": {
+                "type": "string"
+              },
+              "trip_date": {
+                "type": "string"
+              },
+              "fare": {
+                  "type": "number"
+              },
+              "status": {
+                "type": "string"
+                }
+            }
+        },
+        "tripResponse": {
+            "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "trip_id": {
+                    "type":"integer"
+                },
+                "bus_id": {
+                    "type": "integer"
+                },
+                "origin": {
+                    "type": "string"
+                },
+                "destination": {
+                    "type": "string"
+                },
+                "trip_date": {
+                    "type": "string"
+                },
+                "fare": {
+                    "type": "number"
+                }
+            }
+        },
+        "trips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/tripResponse"
+            }
+        },
+
+        "booking": {
+            "required": [
+                "user_id", "trip_id" , "trip_date", "seat_number", "email"
+            ],
+            "properties": {
+              "user_id": {
+                "type": "integer"
+              },
+              "trip_id": {
+                "type": "integer"
+              },
+              "bus_id": {
+                "type": "integer"
+              },
+              "trip_date": {
+                "type": "string"
+              },
+              "seat_number": {
+                "type": "integer"
+              },
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "email": {
+                  "type": "string"
+              },
+              "created_on": {
+                "type": "string"
+              }
+            }
+        },
+        "bookingResponse": {
+            "properties": {
+                "booking_id": {
+                  "type": "integer"
+                },
+                "user_id": {
+                    "type":"integer"
+                },
+                "trip_id": {
+                    "type":"integer"
+                },
+                "bus_id": {
+                    "type": "integer"
+                },
+                "trip_date": {
+                    "type": "string"
+                },
+                "seat_number": {
+                "type": "integer"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "created_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "bookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/bookingResponse"
+            }
+        }
+    }
+}
+    

@@ -57,6 +57,33 @@ describe('POST /auth/signin', () => {
       });
   });
 });
+
+describe('GET /users endpoints', () => {
+  it('should allow an admin access to view all users in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/users')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.status, 'success');
+        done();
+      });
+  });
+
+  it('should allow an admin access to view a specific user in the DB', (done) => {
+    chai.request(app)
+      .get('/api/v1/users/1')
+      .set('x-auth-token', token)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.status, 'success');
+        done();
+      });
+  });
+});
+
 describe('POST /buses endpoint', () => {
   it('should allow an Admin user access to post a bus', (done) => {
     chai.request(app)
