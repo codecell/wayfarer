@@ -136,7 +136,6 @@ describe('FILTER GET /trips endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data[0].fare, 30.5);
         done();
       });
   });
@@ -148,7 +147,6 @@ describe('FILTER GET /trips endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data[0].fare, 30.5);
         done();
       });
   });
