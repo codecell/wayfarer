@@ -3,3 +3,4 @@ node_modules/
 .nyc_output/
 .coveralls.yml
 # Ignore test-related files
+coverage/
