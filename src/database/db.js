@@ -9,6 +9,8 @@ if (process.env.NODE_ENV === 'development') {
   database = process.env.DB_DEV;
 } else if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'TEST') {
   database = process.env.DB_TEST;
+} else {
+  database = process.env.DB_PROD;
 }
 
 const pool = new Pool({
