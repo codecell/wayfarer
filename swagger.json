@@ -6,7 +6,7 @@
       "description": "WayFarer App is a public bus transportation booking service"
     },
 
-    "host": "localhost",
+    "host": "alfrednoble-wayfarer.herokuapp.com",
     "basePath": "/api/v1/",
     "tags": [
         {
@@ -349,15 +349,29 @@
             },
             "get": {
                 "tags": [
-                    "Trips"
+                    "Trips", "Trips search text"
                 ],
                 "summary": "Get all trips, Both users and admins can view all trips",
                 "parameters": [
                     {
                         "name": "x-auth-token",
                         "in": "header",
-                        "description": "The Admin access token",
+                        "description": "The Authorization token",
                         "type": "string"
+                    },
+                    {
+                      "name": "/trips?origin=",
+                      "in": "query",
+                      "description": "The trip(s) from the same origin",
+                      "required": true,
+                      "type": "string"
+                    },
+                    {
+                      "name": "/trips?destination=",
+                      "in": "query",
+                      "description": "The trip(s) headed for the same odestination",
+                      "required": true,
+                      "type": "string"
                     }
                 ],
                 "responses": {
