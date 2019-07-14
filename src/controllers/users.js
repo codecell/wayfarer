@@ -29,7 +29,7 @@ const User = {
     try {
       const { rows } = await userModel.findUserById(req.params.id);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'error', data: { message: 'User With Given ID Not Found' } });
+        return res.status(404).json({ status: 'error', error: 'User With Given ID Not Found' });
       }
   
       return res.status(200).json({
@@ -41,7 +41,7 @@ const User = {
         }
       });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   }
 };

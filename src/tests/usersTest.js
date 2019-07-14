@@ -97,7 +97,7 @@ describe('POST /auth/signin', () => {
       }) 
       .end((err, res) => {
         assert.equal(res.status, 401);
-        assert.equal(res.body.data.message, 'Incorrect Credentials');
+        assert.equal(res.body.error, 'Incorrect Credentials');
         done();
       });
   });
@@ -161,7 +161,7 @@ describe('POST /buses endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 403);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        assert.equal(res.body.error, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
         done();
       });
   });
@@ -176,7 +176,7 @@ describe('POST /trips endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 403);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        assert.equal(res.body.error, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
         done();
       });
   });
@@ -192,7 +192,7 @@ describe('PATCH /trips endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 403);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        assert.equal(res.body.error, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
         done();
       });
   });
@@ -247,7 +247,7 @@ describe('DELETE /bookings endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data.message, 'Booking deleted successfully');
+        assert.equal(res.body.error, 'Booking deleted successfully');
         done();
       });
   });
@@ -261,7 +261,7 @@ describe('user DELETE /trips endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 403);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.data.message, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
+        assert.equal(res.body.error, 'ACCESS DENIED, YOU ARE NOT AN ADMIN');
         done();
       });
   });

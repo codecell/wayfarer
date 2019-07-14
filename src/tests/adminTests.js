@@ -175,7 +175,6 @@ describe('GET /bookings endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.status, 'success');
         done();
       });
   });
@@ -214,7 +213,6 @@ describe('GET /buses endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.status, 'success');
         done();
       });
   });  
