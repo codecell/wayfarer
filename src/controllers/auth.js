@@ -31,11 +31,11 @@ const Auth = {
       return res.status(201).json({
         status: 'success',
         data: {
-          message: 'Signed up successfully',
           user_id: rows[0].user_id,
           is_admin: rows[0].is_admin,
           token,
-          first_name: rows[0].first_name
+          first_name: rows[0].first_name,
+          message: 'Signed up successfully'
         }
       });
     } catch (ex) {
@@ -54,7 +54,7 @@ const Auth = {
         .status(400)
         .json({
           status: 'error',
-          data: { message: 'Incomplete Login Credentials' }
+          error: 'Incomplete Login Credentials'
         });
     }
 
@@ -62,7 +62,7 @@ const Auth = {
     if (!validEmail) { 
       return res
         .status(400)
-        .json({ status: 'error', data: { message: 'invalid email' } }); 
+        .json({ status: 'error', error: 'invalid email' }); 
     }
 
     try {
@@ -72,7 +72,7 @@ const Auth = {
           .status(401)
           .json({
             status: 'error',
-            data: { message: 'Incorrect Credentials' }
+            error: 'Incorrect Credentials'
           });
       }
 
@@ -83,7 +83,7 @@ const Auth = {
       if (!validPassword) {
         return res
           .status(401)
-          .json({ status: 'error', data: { message: 'Invalid Password' } });
+          .json({ status: 'error', error: 'Invalid Password' });
       }
 
       if (!rows[0].is_admin) {
@@ -95,18 +95,18 @@ const Auth = {
       return res.status(200).json({
         status: 'success',
         data: {
-          message: 'Signed in successfully',
           user_id: rows[0].user_id,
           is_admin: rows[0].is_admin,
           token,
-          first_name: rows[0].first_name
+          first_name: rows[0].first_name,
+          message: 'Signed in successfully'
         }
       });
     } catch (ex) {
       if (ex) {
         return res
           .status(500)
-          .json({ status: 'error', data: { message: ex.message } });
+          .json({ status: 'error', error: ex.message });
       }
     }
   }

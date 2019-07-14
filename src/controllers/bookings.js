@@ -19,8 +19,8 @@ const Booking = {
         if (booking.trip_id === req.body.trip_id && booking.email === req.body.email) {
           return res.status(400).json({ 
             status: 'error',
-            data: { message: 'Booking with this Email and Trip Id already made' }
-           });
+            error: 'Booking with this Email and Trip Id already made'
+          });
         }
       });
 
@@ -29,7 +29,6 @@ const Booking = {
       return res.status(201).json({ 
         status: 'success',
         data: {
-          message: 'Booking successfully made!',
           booking_id: rows[0].booking_id,
           user_id: rows[0].user_id,
           trip_id: rows[0].id,
@@ -38,11 +37,12 @@ const Booking = {
           first_name: rows[0].first_name,
           last_name: rows[0].last_name,
           email: rows[0].email,
-          created_on: req.body.created_on
+          created_on: req.body.created_on,
+          message: 'Booking successfully made!'
         } 
       });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   },
 
@@ -54,9 +54,11 @@ const Booking = {
   async getBookings(req, res) {
     try {
       const { rows } = await bookingModel.selectAllBookings();
-      return res.status(200).json({ status: 'success', data: rows });
+      return rows.length === 0
+        ? res.status(200).json({ message: 'No booking made yet' })
+        : res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   },
 
@@ -69,11 +71,11 @@ const Booking = {
     try {
       const { rows } = await bookingModel.selectBookingByUserId(req.params.bookingId);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'error', data: { message: 'booking with given not found' } });
+        return res.status(404).json({ status: 'error', error: 'booking with given not found' });
       }
       return res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   },
 
@@ -86,12 +88,12 @@ const Booking = {
     try {
       const { rows } = await bookingModel.deleteBookingById(req.params.bookingId);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'error', data: { message: 'Booking with the given ID not found' } });
+        return res.status(404).json({ status: 'error', error: 'Booking with the given ID not found' });
       }
 
-      return res.status(200).json({ status: 'success', data: { message: 'Booking deleted successfully' } });
+      return res.status(200).json({ status: 'success', error: 'Booking deleted successfully' });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   }
 };

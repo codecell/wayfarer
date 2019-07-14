@@ -35,11 +35,11 @@ function validateBus(bus) {
 
 function validateTrip(trip) {
   const schema = {
-    bus_id: Joi.number().min(1).max(10000).required(),
-    origin: Joi.string().min(1).max(255).required(),
-    destination: Joi.string().min(1).max(255).required(),
+    bus_id: Joi.number().min(1).max(10000),
+    origin: Joi.string().min(1).max(255),
+    destination: Joi.string().min(1).max(255),
     trip_date: Joi.date(),
-    fare: Joi.number().required(),
+    fare: Joi.number(),
     status: Joi.string().min(1).max(255)
   };
 
@@ -48,14 +48,14 @@ function validateTrip(trip) {
 
 function validateBooking(booking) {
   const schema = {
-    user_id: Joi.number().min(1).max(10000).required(),
-    trip_id: Joi.number().min(1).max(10000).required(),
+    user_id: Joi.number().min(1).max(10000),
+    trip_id: Joi.number().min(1).max(10000),
     bus_id: Joi.number().min(1).max(10000),
-    trip_date: Joi.date().required(),
-    seat_number: Joi.number().min(1).max(10000).required(),
+    trip_date: Joi.date(),
+    seat_number: Joi.number().min(1).max(10000),
     first_name: Joi.string().min(1).max(255),
     last_name: Joi.string().min(1).max(255),
-    email: Joi.string().min(2).max(255).email().required()
+    email: Joi.string().min(2).max(255).email()
   };
 
   return Joi.validate(booking, schema);

@@ -23,7 +23,7 @@ const Bus = {
       });
     } catch (ex) {
       if (ex) {
-        return res.status(500).json({ status: 'error', data: { message: ex.message } });
+        return res.status(500).json({ status: 'error', error: ex.message });
       }   
     }
   },
@@ -39,7 +39,7 @@ const Bus = {
       return res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
       if (ex) {
-        return res.status(500).json({ status: 'error', data: { message: ex.message } });
+        return res.status(500).json({ status: 'error', error: ex.message });
       }
     }
   },
@@ -53,12 +53,12 @@ const Bus = {
     try {
       const { rows } = await busModel.selectBusById(req.params.busId);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'error', data: { message: 'Bus with given ID not found ' } });
+        return res.status(404).json({ status: 'error', error: 'Bus with given ID not found ' });
       }
 
       return res.status(200).json({ status: 'success', data: rows[0] });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });        
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });        
     }
   },
 
@@ -75,7 +75,7 @@ const Bus = {
     try {
       const { rows } = await busModel.selectBusById(req.params.busId);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'error', data: { message: 'Bus with given ID not found ' } });
+        return res.status(404).json({ status: 'error', error: 'Bus with given ID not found ' });
       }
 
       const busUpdateValues = [number_plate, manufacturer, model, year_manufactured, capacity];
@@ -89,7 +89,7 @@ const Bus = {
         }       
       });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   },
 
@@ -102,7 +102,7 @@ const Bus = {
     try {
       const { rows } = await busModel.selectBusById(req.params.busId);
       if (!rows[0]) {
-        return res.status(404).json({ status: 'error', data: { message: 'Bus with given ID not found ' } });
+        return res.status(404).json({ status: 'error', error: 'Bus with given ID not found ' });
       }
       await busModel.removeBusById(req.params.busId);
       return res.status(200).json({ 
@@ -110,7 +110,7 @@ const Bus = {
         data: { message: 'Bus deleted successfully' } 
       });
     } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', data: { message: ex.message } });
+      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
   }
 };
