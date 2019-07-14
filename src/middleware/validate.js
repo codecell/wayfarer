@@ -36,8 +36,8 @@ function validateBus(bus) {
 function validateTrip(trip) {
   const schema = {
     bus_id: Joi.number().min(1).max(10000),
-    origin: Joi.string().min(1).max(255).required(),
-    destination: Joi.string().min(1).max(255).required(),
+    origin: Joi.string().min(1).max(255),
+    destination: Joi.string().min(1).max(255),
     trip_date: Joi.date(),
     fare: Joi.number(),
     status: Joi.string().min(1).max(255)
