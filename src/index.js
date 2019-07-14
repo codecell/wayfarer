@@ -24,10 +24,10 @@ busRoutes(app);
 tripRoutes(app);
 bookingRoutes(app);
 
-const port = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.info(`Listening on port ${port}`);
+app.listen(PORT, () => {
+  console.info(`Listening on PORT ${PORT}`);
 });
 
 export default app;
