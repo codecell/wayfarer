@@ -48,7 +48,7 @@ Ensure that project dependencies are installed before running tests.
 3. Run `npm run test`
 
 ## API Summary
-View full API documentation [here](https://alfrednoble-wayfarer.herokuapp.com/api/v1/api-docs)
+View full API documentation [here](https://alfrednoble-wayfarer.herokuapp.com/api-docs/)
 
 ### Auth
 EndPoint                      |   Functionality
