@@ -26,26 +26,26 @@ const createBusesTable = `CREATE TABLE
 const createTripsTable = `CREATE TABLE 
     trips (
     trip_id SERIAL PRIMARY KEY,
-    bus_id INT NOT NULL,
-    origin TEXT NOT NULL,
-    destination TEXT NOT NULL,
+    bus_id INT,
+    origin TEXT,
+    destination TEXT,
     trip_date DATE DEFAULT current_date,
-    fare FLOAT NOT NULL,
+    fare FLOAT,
     status TEXT
     )`;
 
 const createBookingsTable = `CREATE TABLE 
     bookings (
     booking_id SERIAL,
-    user_id INT NOT NULL,
-    trip_id INT NOT NULL,
+    user_id INT,
+    trip_id INT,
     trip_date DATE DEFAULT current_date,
-    bus_id INT NOT NULL,
-    seat_number INT NOT NULL,
+    bus_id INT,
+    seat_number INT,
     created_on DATE DEFAULT current_date,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
-    email TEXT NOT NULL,
+    first_name TEXT,
+    last_name TEXT,
+    email TEXT,
     PRIMARY KEY (trip_id, user_id)
     )`;  
 
