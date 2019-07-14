@@ -53,8 +53,8 @@ View full API documentation [here](https://alfrednoble-wayfarer.herokuapp.com/ap
 ### Auth
 EndPoint                      |   Functionality
 ------------------------------|------------------------
-POST api/v1/auth/signup       |   Allows a client to craete an account.
-POST api/v1/auth/signin       |   Logs in a user.
+POST api/v1/auth/signup       |   Allows a client to create an account.
+POST api/v1/auth/signin       |   signs in a user.
 
 ### Users
 EndPoint                      |   Functionality
@@ -75,7 +75,7 @@ DELETE api/v1/buses/:busId    |   Allows an admin to delete a specific bus
 EndPoint                       |   Functionality
 -------------------------------|------------------------
 POST api/v1/trips              |   Allows an admin to create a trip.
-GET api/v1/trips               |   Allows users view all trips.
+GET api/v1/trips               |   Allows users to view all trips.
 GET api/v1/trips/:tripId       |   Allows an admin to view a specific trip.
 GET search/trips?q=${query}    |   Allows users get trips from the same origin or the ones headed for same destination. 
 PATCH api/v1/trips/:tripId     |   Allows an admin to cancel a specific trip.
@@ -83,7 +83,7 @@ DELETE api/v1/trips/:tripId    |   Allows an admin to delete a specific trip
 
 ### Bookings
 EndPoint                             |   Functionality
------------------------------------ -|------------------------
+-------------------------------------|------------------------
 POST api/v1/bookings                 |   Allows user to make a booking.
 GET api/v1/bookings                  |   Allows an admin to view all bookings.
 GET api/v1/users/:bookingId/bookings |   Allows user to view all of his/her bookings only.
@@ -94,7 +94,6 @@ Currently, this app can only handle server side requests, but i hope to make its
 
 
 ### Contributing
-
 Contributions are most welcome. Simply fork the repository, work on the feature and raise a PR.
 
 ### Licence
