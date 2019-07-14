@@ -31,8 +31,7 @@ const createTripsTable = `CREATE TABLE
     destination TEXT NOT NULL,
     trip_date DATE DEFAULT current_date,
     fare FLOAT NOT NULL,
-    status TEXT,
-    FOREIGN KEY (bus_id) REFERENCES buses(bus_id) ON DELETE CASCADE
+    status TEXT
     )`;
 
 const createBookingsTable = `CREATE TABLE 
@@ -47,10 +46,6 @@ const createBookingsTable = `CREATE TABLE
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL,
-    FOREIGN KEY (email) REFERENCES users(email),
-    FOREIGN KEY (trip_id) REFERENCES trips(trip_id),
-    FOREIGN KEY (bus_id) REFERENCES buses(bus_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
     PRIMARY KEY (trip_id, user_id)
     )`;  
 

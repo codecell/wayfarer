@@ -4,7 +4,7 @@ import Joi from 'joi';
 function validate(validator) {
   return (req, res, next) => {
     const { error } = validator(req.body);
-    if (error) return res.status(401).send(error.details[0].message);
+    if (error) return res.status(401).json({ status: 'error', error: error.details[0].message }); 
     next();
   };
 }
@@ -36,8 +36,8 @@ function validateBus(bus) {
 function validateTrip(trip) {
   const schema = {
     bus_id: Joi.number().min(1).max(10000),
-    origin: Joi.string().min(1).max(255),
-    destination: Joi.string().min(1).max(255),
+    origin: Joi.string().min(1).max(255).required(),
+    destination: Joi.string().min(1).max(255).required(),
     trip_date: Joi.date(),
     fare: Joi.number(),
     status: Joi.string().min(1).max(255)
