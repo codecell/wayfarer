@@ -23,6 +23,7 @@ const Trip = {
       return res.status(201).json({ 
         status: 'success',
         data: { 
+          id: rows[0].id,
           trip_id: rows[0].id,
           bus_id: rows[0].bus_id,
           origin: rows[0].origin,
