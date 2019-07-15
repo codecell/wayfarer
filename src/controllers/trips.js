@@ -20,7 +20,7 @@ const Trip = {
       return res.status(201).json({ 
         status: 'success',
         data: { 
-          trip_id: rows[0].trip_id,
+          trip_id: rows[0].id,
           bus_id: rows[0].bus_id,
           origin: rows[0].origin,
           destination: rows[0].destination,
@@ -43,9 +43,15 @@ const Trip = {
   async getTrips(req, res) {
     try {
       const { rows } = await tripModel.getAllTrips(req.query);
+      const trips = rows.map((row) => {
+        const newRow = row;
+        newRow.trip_id = row.id;
+        delete row.id;
+        return newRow;
+      });
       return rows.length === 0
         ? res.status(200).json({ message: 'No trip created yet' })
-        : res.status(200).json({ status: 'success', data: rows });
+        : res.status(200).json({ status: 'success', data: trips });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }

@@ -7,7 +7,7 @@ const busModel = {
      */
   createBus(busProps) {
     return pool.query(
-      'INSERT INTO buses(number_plate, manufacturer, model, year_manufactured, capacity) VALUES($1, $2, $3, $4, $5) RETURNING *',
+      'INSERT INTO buses (number_plate, manufacturer, model, year, capacity) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       busProps
     );
   },
@@ -17,7 +17,7 @@ const busModel = {
    */
   selectAllBuses() {
     return pool.query(
-      'SELECT * FROM buses ORDER BY bus_id ASC'
+      'SELECT * FROM buses ORDER BY id ASC'
     );
   },
 
@@ -27,7 +27,7 @@ const busModel = {
    */
   selectBusById(busId) {
     return pool.query(
-      'SELECT * FROM buses WHERE bus_id = $1',
+      'SELECT * FROM buses WHERE id = $1',
       [busId]
     );
   },
@@ -39,8 +39,8 @@ const busModel = {
   updateBusById(bus, busId) {
     return pool.query(
       `UPDATE buses 
-      SET number_plate = $1, manufacturer = $2, model = $3, year_manufactured = $4, capacity = $5
-      WHERE bus_id = $6 RETURNING *`,
+      SET number_plate = $1, manufacturer = $2, model = $3, year = $4, capacity = $5
+      WHERE id = $6 RETURNING *`,
       [...Object.values(bus), busId]
     );
   },
@@ -51,7 +51,7 @@ const busModel = {
    */
   removeBusById(busId) {
     return pool.query(
-      'DELETE FROM buses WHERE bus_id = $1 RETURNING *',
+      'DELETE FROM buses WHERE id = $1 RETURNING *',
       [busId]
     );
   }

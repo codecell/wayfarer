@@ -34,7 +34,7 @@ const bus = {
   number_plate: 'abc1',
   manufacturer: 'toyota',
   model: 'c-class',
-  year_manufactured: '2017',
+  year: '2017',
   capacity: 35
 };
 
@@ -208,6 +208,21 @@ describe('POST /bookings endpoint', () => {
         assert.equal(res.status, 201);
         assert.typeOf(res.body, 'object');
         assert.equal(res.body.data.email, 'test@domain.com');
+        done();
+      });
+  });
+});
+
+describe('POST /bookings endpoint', () => {
+  it('should RETURN if the booking is alredy accepted, to avoid multiple instances of same booking ', (done) => {
+    chai.request(app)
+      .post('/api/v1/bookings')
+      .set('x-auth-token', token)
+      .send(booking)
+      .end((err, res) => {
+        assert.equal(res.status, 400);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.error, 'Booking with this Email and Trip Id already made');
         done();
       });
   });

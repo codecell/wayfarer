@@ -26,7 +26,7 @@ function validateBus(bus) {
     number_plate: Joi.string().min(1).max(255).required(),
     manufacturer: Joi.string().min(1).max(255).required(),
     model: Joi.string().min(1).max(255).required(),
-    year_manufactured: Joi.string().min(1).max(255).required(),
+    year: Joi.string().min(1).max(255).required(),
     capacity: Joi.number().min(1).max(255).required()
   };
 

@@ -29,7 +29,7 @@ const Booking = {
       return res.status(201).json({ 
         status: 'success',
         data: {
-          booking_id: rows[0].booking_id,
+          booking_id: rows[0].id,
           user_id: rows[0].user_id,
           trip_id: rows[0].id,
           trip_date: rows[0].trip_date,
@@ -54,9 +54,15 @@ const Booking = {
   async getBookings(req, res) {
     try {
       const { rows } = await bookingModel.selectAllBookings();
+      const bookings = rows.map((row) => {
+        const newRow = row;
+        newRow.booking_id = row.id;
+        delete row.id;
+        return newRow;
+      });
       return rows.length === 0
         ? res.status(200).json({ message: 'No booking made yet' })
-        : res.status(200).json({ status: 'success', data: rows });
+        : res.status(200).json({ status: 'success', data: bookings });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }
