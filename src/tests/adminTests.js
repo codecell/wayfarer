@@ -50,7 +50,6 @@ describe('POST /auth/signin', () => {
       .post('/api/v1/auth/signin')
       .send(login)
       .end((err, res) => {
-        console.log(res.body.data.token)
         token = res.body.data.token;
         assert.equal(res.status, 200);
         assert.typeOf(res.body.data, 'object');

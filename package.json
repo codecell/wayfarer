@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "set NODE_ENV=test&&npm run migrate&& npm run seed && nyc mocha ./src/tests/ --require @babel/polyfill --require @babel/register --timeout 30000 --exit",
-    "start": "DEBUG app/debug babel-node dist/index.js",
+    "start": "babel-node dist/index.js",
     "build": "babel ./src -d ./dist",
     "migrate": "babel-node ./src/database/toggleTables.js",
     "seed": "babel-node ./src/database/seed.js",
