@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import tripModel from '../models/trip';
-import debug from 'debug';
 
 const Trip = {
   /**
@@ -9,20 +8,14 @@ const Trip = {
      * @param {object} res 
      */
   async postTrip(req, res) {
-    debug('app/debug')('TRIP==REQ: ', req.body);
-    const {token, is_admin, user_id
+    const {
+      bus_id, origin, destination, fare, token, is_admin, user_id
     } = req.body;
-    const bus_id = 1;
-    const destination = "aba";
-    const origin = "Enugu";
-    const trip_date = "2019-07-15";
-    const status = "active";
-    const fare = 250;
     req.body.trip_date = new Date();
     req.body.status = 'active';
 
     try {
-      const tripValues = [bus_id, origin, destination, trip_date, fare, status];
+      const tripValues = [bus_id, origin, destination, req.body.trip_date, fare, req.body.status];
       const { rows } = await tripModel.createTrip(tripValues);
       return res.status(201).json({ 
         status: 'success',
@@ -48,7 +41,6 @@ const Trip = {
    * @param {object} res 
    */
   async getTrips(req, res) {
-    console.log('TRIP==GET: ', req.body);
     try {
       const { rows } = await tripModel.getAllTrips(req.query);
       const trips = rows.map((row) => {
@@ -71,7 +63,6 @@ const Trip = {
      * @param {object} res 
      */
   async getTripById(req, res) {
-    console.log('TRIP==GETID: ', req.body);
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
@@ -91,7 +82,6 @@ const Trip = {
    */
   async cancelTrip(req, res) {
     const { status } = req.body;
-    console.log('TRIP==PATCH: ', req.body);
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
@@ -111,7 +101,7 @@ const Trip = {
    * @param {*} res 
    */
   async deleteTrip(req, res) {
-    console.log('TRIP==DEL: ', req.body);
+    
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
