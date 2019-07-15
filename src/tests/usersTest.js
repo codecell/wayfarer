@@ -42,7 +42,6 @@ const booking = {
   user_id: 2,
   trip_id: 1,
   trip_date: '2019-04-05',
-  bus_id: 1,
   seat_number: 4,
   first_name: 'john',
   last_name: 'doe',

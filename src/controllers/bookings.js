@@ -10,7 +10,7 @@ const Booking = {
   async postBooking(req, res) {
     console.log('BOOKING==REQ: ', req.body);
     const {
-      user_id, trip_id, trip_date, bus_id, seat_number, first_name, last_name, email 
+      user_id, trip_id, trip_date, seat_number, first_name, last_name, email 
     } = req.body;
     req.body.created_on = new Date().toLocaleString();
 
@@ -25,7 +25,7 @@ const Booking = {
         }
       });
 
-      const bookingValues = [user_id, trip_id, trip_date, bus_id, seat_number, first_name, last_name, email, req.body.created_on];
+      const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, email, req.body.created_on];
       const { rows } = await bookingModel.createBooking(bookingValues);
       return res.status(201).json({ 
         status: 'success',
