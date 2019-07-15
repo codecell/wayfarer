@@ -41,11 +41,11 @@ const createBookingsTable = `CREATE TABLE
     trip_id INT NOT NULL,
     trip_date DATE DEFAULT current_date,
     bus_id INT NOT NULL,
-    seat_number INT NOT NULL,
+    seat_number INT,
     created_on DATE DEFAULT current_date,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
-    email TEXT NOT NULL,
+    first_name TEXT,
+    last_name TEXT,
+    email TEXT,
     PRIMARY KEY (trip_id, user_id)
     )`;  
 
