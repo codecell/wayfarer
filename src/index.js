@@ -11,9 +11,11 @@ import bookingRoutes from './routes/bookings';
 import swaggerDocument from '../swagger.json';
 
 dotenv.config();
+
 const app = express();
+app.use(cors());
 app.use(express.json());
-app.use(cors);
+
 
 app.all('/api/v1/', (req, res) => res.status(200).send({
   message: 'Welcome to Wayfarer, the elite public bus transportation booking service'
