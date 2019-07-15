@@ -37,7 +37,8 @@ const User = {
         data: {
           user_id: rows[0].id,
           is_admin: rows[0].is_admin,
-          first_name: rows[0].first_name
+          first_name: rows[0].first_name,
+          email: rows[0].email
         }
       });
     } catch (ex) {

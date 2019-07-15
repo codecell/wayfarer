@@ -9,7 +9,7 @@ const Booking = {
      * @param {object} res 
      */
   async postBooking(req, res) {
-    console.log('BOOKING==REQ: ', req.body);
+    
     const {
       user_id, trip_id, trip_date, seat_number, first_name, last_name
     } = req.body;
@@ -26,8 +26,9 @@ const Booking = {
         }
       });
 
-      const user = await userModel.findUserById(user_id);
-      const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, user.email, req.body.created_on];
+      const { rows: user } = await userModel.findUserById(user_id);
+      console.log('BOOKING==USER: ', user);
+      const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, user[0].email, req.body.created_on];
       const { rows } = await bookingModel.createBooking(bookingValues);
       return res.status(201).json({ 
         status: 'success',
