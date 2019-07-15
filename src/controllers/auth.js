@@ -14,7 +14,7 @@ const Auth = {
   async postUser(req, res) {
     const hashedPassword = await passwordHelper.hashPassword(req.body.password);
     const { email, first_name, last_name } = req.body;
-    const is_admin = false;
+    req.body.is_admin = false;
     
     try {
       const signupValues = [
@@ -22,7 +22,7 @@ const Auth = {
         first_name,
         last_name,
         hashedPassword,
-        is_admin
+        req.body.is_admin
       ];
       const { rows } = await userModel.createUser(signupValues);
 

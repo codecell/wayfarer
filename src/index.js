@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
+import cors from 'cors';
 
 import authRoutes from './routes/auth';
 import usersRoutes from './routes/users';
@@ -12,6 +13,7 @@ import swaggerDocument from '../swagger.json';
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(cors);
 
 app.all('/api/v1/', (req, res) => res.status(200).send({
   message: 'Welcome to Wayfarer, the elite public bus transportation booking service'
