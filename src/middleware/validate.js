@@ -22,6 +22,10 @@ function validateUser(user) {
 }
 
 function validateBus(bus) {
+  const validationOptions = {
+    allowUnknown: true,
+    stripUnknown: true
+  };
   const schema = {
     number_plate: Joi.string().min(1).max(255).required(),
     manufacturer: Joi.string().min(1).max(255).required(),
@@ -30,7 +34,7 @@ function validateBus(bus) {
     capacity: Joi.number().min(1).max(255).required()
   };
 
-  return Joi.validate(bus, schema);
+  return Joi.validate(bus, schema, validationOptions);
 }
 
 function validateTrip(trip) {

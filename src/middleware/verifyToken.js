@@ -26,7 +26,10 @@ export default async function verifyToken(req, res, next) {
         .json({ status: 'error', error: 'Invalid Token' });
     }
 
-    req.user = { id: decoded.id, is_admin: decoded.is_admin };
+    req.body.token = token;
+    req.body.user_id = decoded.id;
+    req.body.is_admin = decoded.is_admin;
+
 
     next();
   } catch (ex) {
