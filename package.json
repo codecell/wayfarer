@@ -9,6 +9,7 @@
     "build": "babel ./src -d ./dist",
     "migrate": "babel-node ./src/database/toggleTables.js",
     "seed": "babel-node ./src/database/seed.js",
+    "debug": "DEBUG app/debug node src/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node -- src/index.js",
     "heroku-postbuild": "npm run build && npm run migrate && npm run seed",
