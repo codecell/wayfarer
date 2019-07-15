@@ -10,7 +10,7 @@ require('dotenv').config();
  * @param {object} next
  */
 export default async function verifyToken(req, res, next) {
-  const token = req.header('x-auth-token');
+  const token = req.body.token || req.header('x-auth-token');
   if (!token) {
     return res
       .status(400)
@@ -26,7 +26,6 @@ export default async function verifyToken(req, res, next) {
         .json({ status: 'error', error: 'Invalid Token' });
     }
 
-    req.body.token = token;
     req.body.user_id = decoded.id;
     req.body.is_admin = decoded.is_admin;
 

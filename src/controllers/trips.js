@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import debug from 'debug';
+
 import tripModel from '../models/trip';
 
 const Trip = {
@@ -8,8 +10,9 @@ const Trip = {
      * @param {object} res 
      */
   async postTrip(req, res) {
+    debug('app/debug')(req.body);
     const {
-      bus_id, origin, destination, fare, token, is_admin, user_id
+      bus_id, origin, destination, fare
     } = req.body;
     req.body.trip_date = new Date();
     req.body.status = 'active';
