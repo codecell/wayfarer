@@ -33,6 +33,7 @@ const Booking = {
       return res.status(201).json({ 
         status: 'success',
         data: {
+          id: rows[0].id,
           booking_id: rows[0].id,
           user_id: rows[0].user_id,
           trip_id: rows[0].id,
