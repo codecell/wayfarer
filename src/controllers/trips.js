@@ -10,7 +10,7 @@ const Trip = {
   async postTrip(req, res) {
     console.log('TRIP==REQ: ', req.body);
     const {
-      bus_id, origin, destination, fare
+      bus_id, origin, destination, fare, token, is_admin, user_id
     } = req.body;
     req.body.trip_date = new Date();
     req.body.status = 'active';
