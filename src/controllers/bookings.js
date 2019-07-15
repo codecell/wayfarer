@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import bookingModel from '../models/booking';
+import userModel from '../models/user';
 
 const Booking = {
   /**
@@ -10,7 +11,7 @@ const Booking = {
   async postBooking(req, res) {
     console.log('BOOKING==REQ: ', req.body);
     const {
-      user_id, trip_id, trip_date, seat_number, first_name, last_name, email 
+      user_id, trip_id, trip_date, seat_number, first_name, last_name
     } = req.body;
     req.body.created_on = new Date().toLocaleString();
 
@@ -25,7 +26,8 @@ const Booking = {
         }
       });
 
-      const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, email, req.body.created_on];
+      const user = await userModel.findUserById(user_id);
+      const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, user.email, req.body.created_on];
       const { rows } = await bookingModel.createBooking(bookingValues);
       return res.status(201).json({ 
         status: 'success',
