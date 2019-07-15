@@ -13,8 +13,10 @@ const Auth = {
    */
   async postUser(req, res) {
     const hashedPassword = await passwordHelper.hashPassword(req.body.password);
-    const { email, first_name, last_name } = req.body;
-    req.body.is_admin = false;
+    const {
+      email, first_name, last_name, is_admin 
+    } = req.body;
+    
     
     try {
       const signupValues = [
@@ -22,7 +24,7 @@ const Auth = {
         first_name,
         last_name,
         hashedPassword,
-        req.body.is_admin
+        is_admin
       ];
       const { rows } = await userModel.createUser(signupValues);
 
@@ -49,7 +51,7 @@ const Auth = {
    * @param {Object} res
    */
   async signin(req, res) {
-    if (!req.body.adminUsername || !req.body.adminPassword) {
+    if (!req.body.email || !req.body.password) {
       return res
         .status(400)
         .json({
@@ -58,7 +60,7 @@ const Auth = {
         });
     }
 
-    const validEmail = await emailHelper.isValidEmail(req.body.adminUsername);
+    const validEmail = await emailHelper.isValidEmail(req.body.email);
     if (!validEmail) { 
       return res
         .status(400)
@@ -66,7 +68,7 @@ const Auth = {
     }
 
     try {
-      const { rows } = await userModel.getUserByEmail(req.body.adminUsername);
+      const { rows } = await userModel.getUserByEmail(req.body.email);
       if (!rows[0]) { 
         return res
           .status(401)
@@ -77,7 +79,7 @@ const Auth = {
       }
 
       const validPassword = await passwordHelper.comparePassword(
-        req.body.adminPassword,
+        req.body.password,
         rows[0].password
       );
       if (!validPassword) {

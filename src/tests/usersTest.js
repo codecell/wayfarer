@@ -20,8 +20,8 @@ const user2 = {
 };
 
 const login = {
-  adminUsername: 'test@domain.com',
-  adminPassword: 'test'
+  email: 'test@domain.com',
+  password: 'test'
 };
 const trip = {
   bus_id: 1,
@@ -92,8 +92,8 @@ describe('POST /auth/signin', () => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        adminUsername: 'prob@email.com',
-        adminPassword: 'may123'
+        email: 'prob@email.com',
+        password: 'may123'
       }) 
       .end((err, res) => {
         assert.equal(res.status, 401);
