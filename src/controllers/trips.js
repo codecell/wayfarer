@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import tripModel from '../models/trip';
+import debug from 'debug';
 
 const Trip = {
   /**
@@ -8,15 +9,20 @@ const Trip = {
      * @param {object} res 
      */
   async postTrip(req, res) {
-    console.log('TRIP==REQ: ', req.body);
-    const {
-      bus_id, origin, destination, fare, token, is_admin, user_id
+    debug('app/debug')('TRIP==REQ: ', req.body);
+    const {token, is_admin, user_id
     } = req.body;
+    const bus_id = 1;
+    const destination = "aba";
+    const origin = "Enugu";
+    const trip_date = "2019-07-15";
+    const status = "active";
+    const fare = 250;
     req.body.trip_date = new Date();
     req.body.status = 'active';
 
     try {
-      const tripValues = [bus_id, origin, destination, req.body.trip_date, fare, req.body.status];
+      const tripValues = [bus_id, origin, destination, trip_date, fare, status];
       const { rows } = await tripModel.createTrip(tripValues);
       return res.status(201).json({ 
         status: 'success',
