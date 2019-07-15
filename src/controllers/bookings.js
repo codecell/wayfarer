@@ -8,6 +8,7 @@ const Booking = {
      * @param {object} res 
      */
   async postBooking(req, res) {
+    console.log('BOOKING==REQ: ', req.body);
     const {
       user_id, trip_id, trip_date, bus_id, seat_number, first_name, last_name, email 
     } = req.body;
@@ -52,6 +53,7 @@ const Booking = {
    * @param {object} res 
    */
   async getBookings(req, res) {
+    console.log('BOOKING==GET: ', req.body);
     try {
       const { rows } = await bookingModel.selectAllBookings();
       const bookings = rows.map((row) => {
@@ -74,6 +76,7 @@ const Booking = {
    * @param {object} res 
    */
   async getBookingByUserId(req, res) {
+    console.log('BOOKING-by-userID==REQ: ', req.body);
     try {
       const { rows } = await bookingModel.selectBookingByUserId(req.params.bookingId);
       if (!rows[0]) {
@@ -91,6 +94,7 @@ const Booking = {
    * @param {object} res 
    */
   async removeBooking(req, res) {
+    console.log('BOOKING==DEL: ', req.body);
     try {
       const { rows } = await bookingModel.deleteBookingById(req.params.bookingId);
       if (!rows[0]) {

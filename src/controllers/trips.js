@@ -8,6 +8,7 @@ const Trip = {
      * @param {object} res 
      */
   async postTrip(req, res) {
+    console.log('TRIP==REQ: ', req.body);
     const {
       bus_id, origin, destination, fare
     } = req.body;
@@ -41,6 +42,7 @@ const Trip = {
    * @param {object} res 
    */
   async getTrips(req, res) {
+    console.log('TRIP==GET: ', req.body);
     try {
       const { rows } = await tripModel.getAllTrips(req.query);
       const trips = rows.map((row) => {
@@ -63,6 +65,7 @@ const Trip = {
      * @param {object} res 
      */
   async getTripById(req, res) {
+    console.log('TRIP==GETID: ', req.body);
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
@@ -82,7 +85,7 @@ const Trip = {
    */
   async cancelTrip(req, res) {
     const { status } = req.body;
-
+    console.log('TRIP==PATCH: ', req.body);
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
@@ -102,6 +105,7 @@ const Trip = {
    * @param {*} res 
    */
   async deleteTrip(req, res) {
+    console.log('TRIP==DEL: ', req.body);
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {
