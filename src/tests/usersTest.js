@@ -206,6 +206,7 @@ describe('POST /bookings endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 201);
         assert.typeOf(res.body, 'object');
+        console.log('RES.BODY===BOOKIN: ', res.body);
         assert.equal(res.body.data.email, 'test@domain.com');
         done();
       });
@@ -213,7 +214,7 @@ describe('POST /bookings endpoint', () => {
 });
 
 describe('POST /bookings endpoint', () => {
-  it('should RETURN if the booking is alredy accepted, to avoid multiple instances of same booking ', (done) => {
+  it('should RETURN if the booking is already accepted, to avoid multiple instances of same booking ', (done) => {
     chai.request(app)
       .post('/api/v1/bookings')
       .set('x-auth-token', token)

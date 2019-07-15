@@ -28,7 +28,7 @@ const userModel = {
    */
   findUserById(id) {
     return pool.query(
-      'SELECT id, is_admin, first_name FROM users WHERE id = $1',
+      'SELECT id, is_admin, first_name, email FROM users WHERE id = $1',
       [id]
     );
   },
