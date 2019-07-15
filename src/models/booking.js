@@ -19,7 +19,7 @@ const bookingModel = {
    */
   selectAllBookings() {
     return pool.query(
-      'SELECT * FROM bookings ORDER BY booking_id ASC'
+      'SELECT * FROM bookings ORDER BY id ASC'
     );
   },
 
@@ -40,7 +40,7 @@ const bookingModel = {
    */
   deleteBookingById(bookingId) {
     return pool.query(
-      'DELETE FROM bookings WHERE booking_id = $1 RETURNING *', 
+      'DELETE FROM bookings WHERE id = $1 RETURNING *', 
       [bookingId]
     );
   }

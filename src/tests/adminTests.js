@@ -32,7 +32,7 @@ const bus = {
   number_plate: 'abc1',
   manufacturer: 'toyota',
   model: 'c-class',
-  year_manufactured: '2017',
+  year: '2017',
   capacity: 35
 };
 
@@ -40,7 +40,7 @@ const secondBus = {
   number_plate: 'efg2',
   manufacturer: 'noble motors',
   model: 'a-class',
-  year_manufactured: '2018',
+  year: '2018',
   capacity: 20
 };
 
@@ -227,7 +227,7 @@ describe('PATCH /buses endpoint', () => {
         number_plate: 'abc22',
         manufacturer: 'toyot-update',
         model: 'c-class-update',
-        year_manufactured: '2020',
+        year: '2020',
         capacity: 10
       })
       .end((err, res) => {

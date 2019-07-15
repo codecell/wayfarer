@@ -9,10 +9,10 @@ const Bus = {
      */
   async postBus(req, res) {
     const {
-      number_plate, manufacturer, model, year_manufactured, capacity 
+      number_plate, manufacturer, model, year, capacity 
     } = req.body;
     try {
-      const busValues = [number_plate, manufacturer, model, year_manufactured, capacity];
+      const busValues = [number_plate, manufacturer, model, year, capacity];
       const { rows } = await busModel.createBus(busValues);
       return res.status(201).json({ 
         status: 'success',
@@ -69,7 +69,7 @@ const Bus = {
    */
   async patchBus(req, res) {
     const {
-      number_plate, manufacturer, model, year_manufactured, capacity 
+      number_plate, manufacturer, model, year, capacity 
     } = req.body;
 
     try {
@@ -78,7 +78,7 @@ const Bus = {
         return res.status(404).json({ status: 'error', error: 'Bus with given ID not found ' });
       }
 
-      const busUpdateValues = [number_plate, manufacturer, model, year_manufactured, capacity];
+      const busUpdateValues = [number_plate, manufacturer, model, year, capacity];
       const result = await busModel.updateBusById(busUpdateValues, req.params.busId);
 
       return res.status(200).json({ 

@@ -21,20 +21,20 @@ const tripModel = {
   getAllTrips(filter) {
     if (filter.origin) {
       return pool.query(
-        'SELECT * FROM trips WHERE origin = $1 ORDER BY trip_id ASC',
+        'SELECT * FROM trips WHERE origin = $1 ORDER BY id ASC',
         [filter.origin]
       );
     }
     
     if (filter.destination) {
       return pool.query(
-        'SELECT * FROM trips WHERE destination = $1 ORDER BY trip_id ASC',
+        'SELECT * FROM trips WHERE destination = $1 ORDER BY id ASC',
         [filter.destination]
       );
     }
 
     return pool.query(
-      'SELECT * FROM trips ORDER BY trip_id ASC'
+      'SELECT * FROM trips ORDER BY id ASC'
     );
   },
 
@@ -44,7 +44,7 @@ const tripModel = {
    */
   selectTripById(tripId) {
     return pool.query(
-      'SELECT * FROM trips WHERE trip_id = $1', 
+      'SELECT * FROM trips WHERE id = $1', 
       [tripId]
     );
   },
@@ -59,7 +59,7 @@ const tripModel = {
     return pool.query(
       `UPDATE trips SET 
            status = $1 
-          WHERE trip_id = $2 RETURNING *`,
+          WHERE id = $2 RETURNING *`,
       [...Object.values(trip), id]
     );
   },
@@ -70,7 +70,7 @@ const tripModel = {
    */
   removeTripById(tripId) {
     return pool.query(
-      'DELETE FROM trips WHERE trip_id = $1 RETURNING *',
+      'DELETE FROM trips WHERE id = $1 RETURNING *',
       [tripId]      
     );
   }

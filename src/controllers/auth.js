@@ -26,12 +26,12 @@ const Auth = {
       ];
       const { rows } = await userModel.createUser(signupValues);
 
-      const token = await generateAuthToken(rows[0].user_id, rows[0].is_admin);
+      const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
 
       return res.status(201).json({
         status: 'success',
         data: {
-          user_id: rows[0].user_id,
+          user_id: rows[0].id,
           is_admin: rows[0].is_admin,
           token,
           first_name: rows[0].first_name,
@@ -90,12 +90,12 @@ const Auth = {
         rows[0].is_admin = false;
       }
 
-      const token = await generateAuthToken(rows[0].user_id, rows[0].is_admin);
+      const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
 
       return res.status(200).json({
         status: 'success',
         data: {
-          user_id: rows[0].user_id,
+          user_id: rows[0].id,
           is_admin: rows[0].is_admin,
           token,
           first_name: rows[0].first_name,

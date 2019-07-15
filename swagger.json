@@ -349,7 +349,7 @@
             },
             "get": {
                 "tags": [
-                    "Trips", "Trips search text"
+                    "Trips"
                 ],
                 "summary": "Get all trips, Both users and admins can view all trips",
                 "parameters": [
