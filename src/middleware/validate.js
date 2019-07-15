@@ -11,7 +11,7 @@ function validate(validator) {
 
 function validateUser(user) {
   const schema = {
-    email: Joi.string().min(2).max(255).email().required(),
+    email: Joi.string().min(2).max(255).email(),
     first_name: Joi.string().min(2).max(255).required(),
     last_name: Joi.string().min(2).max(255).required(),
     password: Joi.string().min(2).max(255).required(),
@@ -27,11 +27,11 @@ function validateBus(bus) {
     stripUnknown: true
   };
   const schema = {
-    number_plate: Joi.string().min(1).max(255).required(),
-    manufacturer: Joi.string().min(1).max(255).required(),
-    model: Joi.string().min(1).max(255).required(),
-    year: Joi.string().min(1).max(255).required(),
-    capacity: Joi.number().min(1).max(255).required()
+    number_plate: Joi.string().min(1).max(255),
+    manufacturer: Joi.string().min(1).max(255),
+    model: Joi.string().min(1).max(255),
+    year: Joi.string().min(1).max(255),
+    capacity: Joi.number().min(1).max(255)
   };
 
   return Joi.validate(bus, schema, validationOptions);

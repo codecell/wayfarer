@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import tripModel from '../models/trip';
+import debug from 'debug';
 
 const Trip = {
   /**
@@ -8,7 +9,7 @@ const Trip = {
      * @param {object} res 
      */
   async postTrip(req, res) {
-    console.log('TRIP==REQ: ', req.body);
+    debug('app/debug')('TRIP==REQ: ', req.body);
     const {token, is_admin, user_id
     } = req.body;
     const bus_id = 1;
