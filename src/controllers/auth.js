@@ -49,7 +49,7 @@ const Auth = {
    * @param {Object} res
    */
   async signin(req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.adminUsername || !req.body.adminPassword) {
       return res
         .status(400)
         .json({
@@ -58,7 +58,7 @@ const Auth = {
         });
     }
 
-    const validEmail = await emailHelper.isValidEmail(req.body.email);
+    const validEmail = await emailHelper.isValidEmail(req.body.adminUsername);
     if (!validEmail) { 
       return res
         .status(400)
@@ -66,7 +66,7 @@ const Auth = {
     }
 
     try {
-      const { rows } = await userModel.getUserByEmail(req.body.email);
+      const { rows } = await userModel.getUserByEmail(req.body.adminUsername);
       if (!rows[0]) { 
         return res
           .status(401)
@@ -77,7 +77,7 @@ const Auth = {
       }
 
       const validPassword = await passwordHelper.comparePassword(
-        req.body.password,
+        req.body.adminPassword,
         rows[0].password
       );
       if (!validPassword) {

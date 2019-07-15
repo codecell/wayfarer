@@ -10,8 +10,8 @@ chai.use(chaiHttp);
 let token;
 
 const login = {
-  email: process.env.ADMIN_EMAIL,
-  password: process.env.ADMIN_PASS,
+  adminUsername: process.env.ADMIN_EMAIL,
+  adminPassword: process.env.ADMIN_PASS,
 };
 
 const trip = {
