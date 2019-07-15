@@ -17,10 +17,18 @@ const bookingModel = {
   /**
    * select all saved bookings in the DB
    */
-  selectAllBookings() {
-    return pool.query(
-      'SELECT * FROM bookings ORDER BY id ASC'
-    );
+  selectAllBookings(userId) {
+    let result;
+    if (userId) {
+      result = pool.query(
+        'SELECT * FROM bookings WHERE user_id = $1 ORDER BY id ASC', userId
+      );
+    } else {
+      result = pool.query(
+        'SELECT * FROM bookings ORDER BY id ASC'
+      );
+    }
+    return result;
   },
 
   /**

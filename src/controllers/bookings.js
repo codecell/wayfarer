@@ -10,7 +10,7 @@ const Booking = {
   async postBooking(req, res) {
     console.log('BOOKING==REQ: ', req.body);
     const {
-      user_id, trip_id, trip_date, bus_id, seat_number, first_name, last_name, email, token, is_admin, 
+      user_id, trip_id, trip_date, bus_id, seat_number, first_name, last_name, email 
     } = req.body;
     req.body.created_on = new Date().toLocaleString();
 
@@ -55,7 +55,8 @@ const Booking = {
   async getBookings(req, res) {
     console.log('BOOKING==GET: ', req.body);
     try {
-      const { rows } = await bookingModel.selectAllBookings();
+      const userId = req.body.is_admin ? null : req.body.user_id;
+      const { rows } = await bookingModel.selectAllBookings(userId);
       const bookings = rows.map((row) => {
         const newRow = row;
         newRow.booking_id = row.id;
