@@ -34,6 +34,10 @@ function validateBus(bus) {
 }
 
 function validateTrip(trip) {
+  const validationOptions = {
+    allowUnknown: true,
+    stripUnknown: true
+  };
   const schema = {
     bus_id: Joi.number().min(1).max(10000),
     origin: Joi.string().min(1).max(255),
@@ -43,10 +47,14 @@ function validateTrip(trip) {
     status: Joi.string().min(1).max(255)
   };
 
-  return Joi.validate(trip, schema);
+  return Joi.validate(trip, schema, validationOptions);
 }
 
 function validateBooking(booking) {
+  const validationOptions = {
+    allowUnknown: true,
+    stripUnknown: true
+  };
   const schema = {
     user_id: Joi.number().min(1).max(10000),
     trip_id: Joi.number().min(1).max(10000),
@@ -58,7 +66,7 @@ function validateBooking(booking) {
     email: Joi.string().min(2).max(255).email()
   };
 
-  return Joi.validate(booking, schema);
+  return Joi.validate(booking, schema, validationOptions);
 }
 
 module.exports = {
