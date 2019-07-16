@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import userModel from '../models/user';
 import passwordHelper from '../helpers/passwordHelper';
 import emailHelper from '../helpers/emailHelper';
@@ -26,16 +25,17 @@ const Auth = {
         is_admin
       ];
       const { rows } = await userModel.createUser(signupValues);
+      const user = rows[0];
 
-      const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
+      const token = await generateAuthToken(user.id, user.is_admin);
 
       return res.status(201).json({
         status: 'success',
         data: {
-          user_id: rows[0].id,
-          is_admin: rows[0].is_admin,
+          user_id: user.id,
+          is_admin: user.is_admin,
           token,
-          first_name: rows[0].first_name,
+          first_name: user.first_name,
           message: 'Signed up successfully'
         }
       });

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import bookingModel from '../models/booking';
 import userModel from '../models/user';
 
@@ -26,21 +25,22 @@ const Booking = {
         }
       });
 
-      const { rows: user } = await userModel.findUserById(user_id);
+      const { rows: user } = await userModel.findUserById(user_id);      
       const bookingValues = [user_id, trip_id, trip_date, seat_number, user[0].first_name, user[0].last_name, user[0].email, req.body.created_on];
       const { rows } = await bookingModel.createBooking(bookingValues);
+      const newBooking = rows[0];
       return res.status(201).json({ 
         status: 'success',
         data: {
-          id: rows[0].id,
-          booking_id: rows[0].id,
-          user_id: rows[0].user_id,
-          trip_id: rows[0].id,
-          trip_date: rows[0].trip_date,
-          seat_number: rows[0].seat_number,
-          first_name: rows[0].first_name,
-          last_name: rows[0].last_name,
-          email: rows[0].email,
+          id: newBooking.id,
+          booking_id: newBooking.id,
+          user_id: newBooking.user_id,
+          trip_id: newBooking.id,
+          trip_date: newBooking.trip_date,
+          seat_number: newBooking.seat_number,
+          first_name: newBooking.first_name,
+          last_name: newBooking.last_name,
+          email: newBooking.email,
           created_on: req.body.created_on,
           message: 'Booking successfully made!'
         } 

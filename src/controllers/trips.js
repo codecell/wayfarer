@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import tripModel from '../models/trip';
 
 const Trip = {
@@ -17,17 +16,18 @@ const Trip = {
     try {
       const tripValues = [bus_id, origin, destination, req.body.trip_date, fare, req.body.status];
       const { rows } = await tripModel.createTrip(tripValues);
+      const trip = rows[0];
       return res.status(201).json({ 
         status: 'success',
         data: { 
-          id: rows[0].id,
-          trip_id: rows[0].id,
-          bus_id: rows[0].bus_id,
-          origin: rows[0].origin,
-          destination: rows[0].destination,
-          trip_date: rows[0].trip_date,
-          fare: rows[0].fare,
-          status: rows[0].status,
+          id: trip.id,
+          trip_id: trip.id,
+          bus_id: trip.bus_id,
+          origin: trip.origin,
+          destination: trip.destination,
+          trip_date: trip.trip_date,
+          fare: trip.fare,
+          status: trip.status,
           message: 'Trip successfully created'
         } 
       });
