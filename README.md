@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/codecell/wayfarer.svg?branch=develop)](https://travis-ci.org/codecell/wayfarer) <a href="https://codeclimate.com/github/codecell/wayfarer/maintainability"><img src="https://api.codeclimate.com/v1/badges/11c37e220fbf05e79456/maintainability" /></a> [![Coverage Status](https://coveralls.io/repos/github/codecell/wayfarer/badge.svg?branch=ch-setup-swagger-docs-167270588)](https://coveralls.io/github/codecell/wayfarer?branch=ch-setup-swagger-docs-167270588)
+[![Build Status](https://travis-ci.org/codecell/wayfarer.svg?branch=develop)](https://travis-ci.org/codecell/wayfarer) <a href="https://codeclimate.com/github/codecell/wayfarer/maintainability"><img src="https://api.codeclimate.com/v1/badges/11c37e220fbf05e79456/maintainability" /></a> [![Coverage Status](https://coveralls.io/repos/github/codecell/wayfarer/badge.svg?branch=ch-remove-redundant-code-167331235)](https://coveralls.io/github/codecell/wayfarer?branch=ch-remove-redundant-code-167331235)
 
 # wayfarer
 WayFarer is a public bus transportation booking server. Users can view a list of trips and make bookings.
