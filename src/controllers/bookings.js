@@ -27,7 +27,7 @@ const Booking = {
       });
 
       const { rows: user } = await userModel.findUserById(user_id);
-      const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, user[0].email, req.body.created_on];
+      const bookingValues = [user_id, trip_id, trip_date, seat_number, user[0].first_name, user[0].last_name, user[0].email, req.body.created_on];
       const { rows } = await bookingModel.createBooking(bookingValues);
       return res.status(201).json({ 
         status: 'success',
@@ -56,7 +56,6 @@ const Booking = {
    * @param {object} res 
    */
   async getBookings(req, res) {
-    console.log('BOOKING==GET: ', req.body);
     try {
       const userId = req.body.is_admin ? null : req.body.user_id;
       const { rows } = await bookingModel.selectAllBookings(userId);
