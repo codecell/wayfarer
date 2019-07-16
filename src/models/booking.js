@@ -21,7 +21,7 @@ const bookingModel = {
     let result;
     if (userId) {
       result = pool.query(
-        'SELECT * FROM bookings WHERE user_id = $1 ORDER BY id ASC', userId
+        'SELECT * FROM bookings WHERE user_id = $1 ORDER BY id ASC', [userId]
       );
     } else {
       result = pool.query(
