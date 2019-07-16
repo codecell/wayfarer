@@ -1,6 +1,4 @@
 /* eslint-disable camelcase */
-import debug from 'debug';
-
 import tripModel from '../models/trip';
 
 const Trip = {
@@ -10,7 +8,6 @@ const Trip = {
      * @param {object} res 
      */
   async postTrip(req, res) {
-    debug('app/debug')(req.body);
     const {
       bus_id, origin, destination, fare
     } = req.body;
@@ -104,8 +101,7 @@ const Trip = {
    * @param {*} req 
    * @param {*} res 
    */
-  async deleteTrip(req, res) {
-    
+  async deleteTrip(req, res) {    
     try {
       const { rows } = await tripModel.selectTripById(req.params.tripId);
       if (!rows[0]) {

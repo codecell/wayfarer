@@ -7,7 +7,7 @@ require('dotenv').config();
 
 chai.use(chaiHttp);
 
-let token;
+let adminToken;
 
 const login = {
   email: process.env.ADMIN_EMAIL,
@@ -50,7 +50,7 @@ describe('POST /auth/signin', () => {
       .post('/api/v1/auth/signin')
       .send(login)
       .end((err, res) => {
-        token = res.body.data.token;
+        adminToken = res.body.data.token;
         assert.equal(res.status, 200);
         assert.typeOf(res.body.data, 'object');
         done();
@@ -62,7 +62,7 @@ describe('GET /users endpoints', () => {
   it('should allow an admin access to view all users in the DB', (done) => {
     chai.request(app)
       .get('/api/v1/users')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -74,7 +74,7 @@ describe('GET /users endpoints', () => {
   it('should allow an admin access to view a specific user in the DB', (done) => {
     chai.request(app)
       .get('/api/v1/users/1')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -89,7 +89,7 @@ describe('POST /buses endpoint', () => {
     chai.request(app)
       .post('/api/v1/buses')
       .send(bus)
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 201);
         assert.typeOf(res.body, 'object');
@@ -103,7 +103,7 @@ describe('POST /buses endpoint', () => {
     chai.request(app)
       .post('/api/v1/buses')
       .send(secondBus)
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 201);
         assert.typeOf(res.body, 'object');
@@ -116,7 +116,7 @@ describe('POST /trips endpoint', () => {
   it('should allow an Admin user access to create a trip', (done) => {
     chai.request(app)
       .post('/api/v1/trips')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .send(trip)
       .end((err, res) => {
         assert.equal(res.status, 201);
@@ -129,7 +129,7 @@ describe('POST /trips endpoint', () => {
   it('should allow an Admin user access to create a trip', (done) => {
     chai.request(app)
       .post('/api/v1/trips')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .send(secondTrip)
       .end((err, res) => {
         assert.equal(res.status, 201);
@@ -143,7 +143,7 @@ describe('GET /trips/:id endpoint', () => {
   it('should allow an Admin user access to view a particular trip', (done) => {
     chai.request(app)
       .get('/api/v1/trips/1')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -156,7 +156,7 @@ describe('PATCH /trips endpoint', () => {
   it('should allow an Admin user access to CANCEL a trip', (done) => {
     chai.request(app)
       .patch('/api/v1/trips/1')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .send({ status: 'cancelled' })
       .end((err, res) => {
         assert.equal(res.status, 200);
@@ -171,7 +171,7 @@ describe('GET /bookings endpoint', () => {
   it('should allow an admin access to view all bookings in the DB', (done) => {
     chai.request(app)
       .get('/api/v1/bookings')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -184,7 +184,7 @@ describe('DELETE /trips endpoint', () => {
   it('should allow an Admin access to DELETE a trip in the DB', (done) => {
     chai.request(app)
       .delete('/api/v1/trips/2')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -198,7 +198,7 @@ describe('GET /buses endpoint', () => {
   it('should allow an Admin access to view all buses in the DB', (done) => {
     chai.request(app)
       .get('/api/v1/buses')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -209,7 +209,7 @@ describe('GET /buses endpoint', () => {
   it('should allow an Admin access to view particular bus in the DB', (done) => {
     chai.request(app)
       .get('/api/v1/buses/1')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
@@ -222,7 +222,7 @@ describe('PATCH /buses endpoint', () => {
   it('should allow an Admin access to update a particular bus in the DB', (done) => {
     chai.request(app)
       .patch('/api/v1/buses/1')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .send({
         number_plate: 'abc22',
         manufacturer: 'toyot-update',
@@ -243,7 +243,7 @@ describe('DELETE /buses endpoint', () => {
   it('should allow an Admin access to DELETE a bus in the DB', (done) => {
     chai.request(app)
       .delete('/api/v1/buses/2')
-      .set('x-auth-token', token)
+      .set('x-auth-token', adminToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');

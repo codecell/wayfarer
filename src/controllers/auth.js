@@ -15,8 +15,7 @@ const Auth = {
     const hashedPassword = await passwordHelper.hashPassword(req.body.password);
     const {
       email, first_name, last_name, is_admin 
-    } = req.body;
-    
+    } = req.body;    
     
     try {
       const signupValues = [
