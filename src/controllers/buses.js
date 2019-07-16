@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import busModel from '../models/bus';
 
 const Bus = {
