@@ -23,6 +23,10 @@ const login = {
   email: 'test@domain.com',
   password: 'test'
 };
+const login2 = {
+  email: 'test2@domain.com',
+  password: 'test'
+};
 const trip = {
   bus_id: 1,
   origin: 'ilasa',
@@ -39,16 +43,26 @@ const bus = {
 };
 
 const booking = {
-  user_id: 2,
   trip_id: 1,
   trip_date: '2019-04-05',
   seat_number: 4,
-  first_name: 'john',
-  last_name: 'doe',
+  email: 'test2@domain.com'
+};
+const secondBooking = {
+  trip_id: 2,
+  trip_date: '2019-06-05',
+  seat_number: 4,
+  email: 'test2@domain.com'
+};
+const thirdBooking = {
+  trip_id: 2,
+  trip_date: '2019-06-05',
+  seat_number: 4,
   email: 'test@domain.com'
 };
 
 let token;
+let secondToken;
 
 describe('POST api/v1/auth/signup', () => {
   it('should register a client', (done) => {
@@ -101,6 +115,18 @@ describe('POST /auth/signin', () => {
       });
   });
 
+  it('Should login a user 2', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send(login2)
+      .end((err, res) => {
+        secondToken = res.body.data.token;
+        assert.equal(res.status, 200);
+        assert.typeOf(res.body.data, 'object');
+        done();
+      });
+  });
+
   it('Should login a user', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signin')
@@ -113,6 +139,7 @@ describe('POST /auth/signin', () => {
       });
   });
 });
+
 
 describe('GET /trips endpoint', () => {
   it('should grant a user access to view all trips', (done) => {
@@ -196,18 +223,31 @@ describe('PATCH /trips endpoint', () => {
       });
   });
 });
-
 describe('POST /bookings endpoint', () => {
   it('should allow a user access to place a booking', (done) => {
     chai.request(app)
       .post('/api/v1/bookings')
       .set('x-auth-token', token)
+      .send(thirdBooking)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.email, 'test@domain.com');
+        done();
+      });
+  });
+});
+
+describe('POST /bookings endpoint', () => {
+  it('should allow a user2 access to place a booking', (done) => {
+    chai.request(app)
+      .post('/api/v1/bookings')
+      .set('x-auth-token', secondToken)
       .send(booking)
       .end((err, res) => {
         assert.equal(res.status, 201);
         assert.typeOf(res.body, 'object');
-        console.log('RES.BODY===BOOKIN: ', res.body);
-        assert.equal(res.body.data.email, 'test@domain.com');
+        assert.equal(res.body.data.email, 'test2@domain.com');
         done();
       });
   });
@@ -217,7 +257,7 @@ describe('POST /bookings endpoint', () => {
   it('should RETURN if the booking is already accepted, to avoid multiple instances of same booking ', (done) => {
     chai.request(app)
       .post('/api/v1/bookings')
-      .set('x-auth-token', token)
+      .set('x-auth-token', secondToken)
       .send(booking)
       .end((err, res) => {
         assert.equal(res.status, 400);
@@ -228,6 +268,20 @@ describe('POST /bookings endpoint', () => {
   });
 });
 
+describe('POST /bookings endpoint', () => {
+  it('should allow  user2 access to place Another booking', (done) => {
+    chai.request(app)
+      .post('/api/v1/bookings')
+      .set('x-auth-token', secondToken)
+      .send(secondBooking)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        assert.typeOf(res.body, 'object');
+        assert.equal(res.body.data.email, 'test2@domain.com');
+        done();
+      });
+  });
+});
 
 describe('GET /bookings endpoint', () => {
   it('should allow a user access to view only THEIR booking(s)', (done) => {
@@ -235,25 +289,13 @@ describe('GET /bookings endpoint', () => {
       .get('/api/v1/bookings')
       .set('x-auth-token', token)
       .end((err, res) => {
+        
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
         done();
       });
   });
 });
-
-// describe('GET /bookings endpoint', () => {
-//   it('should NOT allow a User access to view all bookings in the DB', (done) => {
-//     chai.request(app)
-//       .get('/api/v1/bookings')
-//       .set('x-auth-token', token)
-//       .end((err, res) => {
-//         assert.equal(res.status);
-//         assert.typeOf(res.body, 'object');
-//         done();
-//       });
-//   });
-// });
 
 describe('DELETE /bookings endpoint', () => {
   it('should allow a user access to DELETE only THEIR booking(s)', (done) => {

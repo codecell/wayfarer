@@ -11,7 +11,7 @@ const Booking = {
   async postBooking(req, res) {
     
     const {
-      user_id, trip_id, trip_date, seat_number, first_name, last_name
+      user_id, trip_id, trip_date, seat_number
     } = req.body;
     req.body.created_on = new Date().toLocaleString();
 
@@ -57,8 +57,15 @@ const Booking = {
    */
   async getBookings(req, res) {
     try {
-      const userId = req.body.is_admin ? null : req.body.user_id;
-      const { rows } = await bookingModel.selectAllBookings(userId);
+      let result;
+
+      if (!req.body.is_admin) {
+        result = await bookingModel.selectBookingsByUserId(req.body.user_id);
+      } else {
+        result = await bookingModel.selectAllBookings(); 
+      }
+      
+      const { rows } = result;
       const bookings = rows.map((row) => {
         const newRow = row;
         newRow.booking_id = row.id;
@@ -68,23 +75,6 @@ const Booking = {
       return rows.length === 0
         ? res.status(200).json({ message: 'No booking made yet' })
         : res.status(200).json({ status: 'success', data: bookings });
-    } catch (ex) {
-      if (ex) return res.status(500).json({ status: 'error', error: ex.message });
-    }
-  },
-
-  /**
-   * request booking(s) made by a specific id
-   * @param {object} req 
-   * @param {object} res 
-   */
-  async getBookingByUserId(req, res) {
-    try {
-      const { rows } = await bookingModel.selectBookingByUserId(req.params.bookingId);
-      if (!rows[0]) {
-        return res.status(404).json({ status: 'error', error: 'booking with given not found' });
-      }
-      return res.status(200).json({ status: 'success', data: rows });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }

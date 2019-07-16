@@ -537,33 +537,7 @@
                 }
             }
         },
-        "/users/bookings/:bookingId": {
-            "get": {
-                "tags": [
-                    "Bookings"
-                ],
-                "summary": "A User can view all their bookings ONLY",
-                "parameters": [
-                    {
-                        "name": "x-auth-token",
-                        "in": "header",
-                        "description": "The authentication token",
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                       "200": {
-                        "description": "Returns all bookings made the user with given user ID in  bookings collection",
-                        "schema": {
-                          "$ref": "#/definitions/bookings"
-                        }
-                },
-                "500": {
-                        "description": "internal server error, something went wrong"
-                    }
-                }
-            }
-        },
+
         "/bookings/:bookingId": {
             "delete": {
                 "tags": [

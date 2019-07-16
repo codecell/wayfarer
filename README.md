@@ -85,8 +85,7 @@ DELETE api/v1/trips/:tripId    |   Allows an admin to delete a specific trip
 EndPoint                             |   Functionality
 -------------------------------------|------------------------
 POST api/v1/bookings                 |   Allows user to make a booking.
-GET api/v1/bookings                  |   Allows an admin to view all bookings.
-GET api/v1/users/:bookingId/bookings |   Allows user to view all of his/her bookings only.
+GET api/v1/bookings                  |   Allows an admin to view all bookings & allows a user to view all of his/her bookings only.  
 DELETE api/v1/bookings/:bookingId    |   Allows user to delete their bookings only.
 
 ### Limitations

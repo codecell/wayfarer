@@ -1,7 +1,6 @@
 /* eslint-disable import/named */
 import verifyToken from '../middleware/verifyToken';
 import { validate, validateBooking } from '../middleware/validate';
-import admin from '../middleware/admin';
 import Booking from '../controllers/bookings';
 
 export default function bookingRoutes(app) {
