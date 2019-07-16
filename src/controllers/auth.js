@@ -68,7 +68,8 @@ const Auth = {
 
     try {
       const { rows } = await userModel.getUserByEmail(req.body.email);
-      if (!rows[0]) { 
+      const user = rows[0];
+      if (!user) { 
         return res
           .status(401)
           .json({
@@ -79,7 +80,7 @@ const Auth = {
 
       const validPassword = await passwordHelper.comparePassword(
         req.body.password,
-        rows[0].password
+        user.password
       );
       if (!validPassword) {
         return res
@@ -87,19 +88,19 @@ const Auth = {
           .json({ status: 'error', error: 'Invalid Password' });
       }
 
-      if (!rows[0].is_admin) {
-        rows[0].is_admin = false;
+      if (!user.is_admin) {
+        user.is_admin = false;
       }
 
-      const token = await generateAuthToken(rows[0].id, rows[0].is_admin);
+      const token = await generateAuthToken(user.id, user.is_admin);
 
       return res.status(200).json({
         status: 'success',
         data: {
-          user_id: rows[0].id,
-          is_admin: rows[0].is_admin,
+          user_id: user.id,
+          is_admin: user.is_admin,
           token,
-          first_name: rows[0].first_name,
+          first_name: user.first_name,
           message: 'Signed in successfully'
         }
       });

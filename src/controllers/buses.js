@@ -13,11 +13,12 @@ const Bus = {
     try {
       const busValues = [number_plate, manufacturer, model, year, capacity];
       const { rows } = await busModel.createBus(busValues);
+      const bus = rows[0];
       return res.status(201).json({ 
         status: 'success',
         data: {
           message: 'Bus successfully added!',
-          bus: rows[0]
+          bus
         }
       });
     } catch (ex) {
@@ -51,11 +52,12 @@ const Bus = {
   async getBusById(req, res) {
     try {
       const { rows } = await busModel.selectBusById(req.params.busId);
-      if (!rows[0]) {
+      const bus = rows[0];
+      if (!bus) {
         return res.status(404).json({ status: 'error', error: 'Bus with given ID not found ' });
       }
 
-      return res.status(200).json({ status: 'success', data: rows[0] });
+      return res.status(200).json({ status: 'success', data: bus });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', error: ex.message });        
     }
@@ -73,7 +75,8 @@ const Bus = {
 
     try {
       const { rows } = await busModel.selectBusById(req.params.busId);
-      if (!rows[0]) {
+      const bus = rows[0];
+      if (!bus) {
         return res.status(404).json({ status: 'error', error: 'Bus with given ID not found ' });
       }
 
