@@ -27,7 +27,6 @@ const Booking = {
       });
 
       const { rows: user } = await userModel.findUserById(user_id);
-      console.log('BOOKING==USER: ', user);
       const bookingValues = [user_id, trip_id, trip_date, seat_number, first_name, last_name, user[0].email, req.body.created_on];
       const { rows } = await bookingModel.createBooking(bookingValues);
       return res.status(201).json({ 
@@ -81,7 +80,6 @@ const Booking = {
    * @param {object} res 
    */
   async getBookingByUserId(req, res) {
-    console.log('BOOKING-by-userID==REQ: ', req.body);
     try {
       const { rows } = await bookingModel.selectBookingByUserId(req.params.bookingId);
       if (!rows[0]) {
@@ -99,14 +97,13 @@ const Booking = {
    * @param {object} res 
    */
   async removeBooking(req, res) {
-    console.log('BOOKING==DEL: ', req.body);
     try {
       const { rows } = await bookingModel.deleteBookingById(req.params.bookingId);
       if (!rows[0]) {
         return res.status(404).json({ status: 'error', error: 'Booking with the given ID not found' });
       }
 
-      return res.status(200).json({ status: 'success', error: 'Booking deleted successfully' });
+      return res.status(200).json({ status: 'success', data: { message: 'Booking deleted successfully' } });
     } catch (ex) {
       if (ex) return res.status(500).json({ status: 'error', error: ex.message });
     }

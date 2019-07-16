@@ -232,7 +232,7 @@ describe('POST /bookings endpoint', () => {
 describe('GET /bookings endpoint', () => {
   it('should allow a user access to view only THEIR booking(s)', (done) => {
     chai.request(app)
-      .get('/api/v1/users/2/bookings')
+      .get('/api/v1/bookings')
       .set('x-auth-token', token)
       .end((err, res) => {
         assert.equal(res.status, 200);
@@ -242,6 +242,19 @@ describe('GET /bookings endpoint', () => {
   });
 });
 
+// describe('GET /bookings endpoint', () => {
+//   it('should NOT allow a User access to view all bookings in the DB', (done) => {
+//     chai.request(app)
+//       .get('/api/v1/bookings')
+//       .set('x-auth-token', token)
+//       .end((err, res) => {
+//         assert.equal(res.status);
+//         assert.typeOf(res.body, 'object');
+//         done();
+//       });
+//   });
+// });
+
 describe('DELETE /bookings endpoint', () => {
   it('should allow a user access to DELETE only THEIR booking(s)', (done) => {
     chai.request(app)
@@ -250,7 +263,7 @@ describe('DELETE /bookings endpoint', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.typeOf(res.body, 'object');
-        assert.equal(res.body.error, 'Booking deleted successfully');
+        assert.equal(res.body.data.message, 'Booking deleted successfully');
         done();
       });
   });
