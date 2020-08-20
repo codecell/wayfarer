@@ -29,7 +29,7 @@
     "@babel/core": "^7.5.0",
     "@babel/node": "^7.5.0",
     "@babel/preset-env": "^7.5.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
